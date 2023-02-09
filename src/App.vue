@@ -1,8 +1,6 @@
 <template>
-  <v-app theme="light">
-    <v-navigation-drawer absolute border permanent rounded>
-      <Sidebar />
-    </v-navigation-drawer>
+  <v-app theme="dark">
+    <Sidebar />
     <v-main>
       <router-view />
     </v-main>
