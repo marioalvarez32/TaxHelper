@@ -1,5 +1,5 @@
 <template>
-  <v-layout>
+  <v-layout full-height>
     <Sidebar />
     <v-main>
       <router-view />
