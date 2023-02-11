@@ -1,15 +1,5 @@
 <template>
-    <v-navigation-drawer absolute border permanent rounded>
-        <v-list>
-            <v-list-item title="Tax Helper" subtitle="cositas">
-                <template v-slot:append>
-                    <v-btn size="small" variant="text" icon="mdi-menu-down"></v-btn>
-                </template>
-            </v-list-item>
-        </v-list>
-
-        <v-divider></v-divider>
-
+    <v-navigation-drawer color="primary" permanent rounded rail elevation="5">
         <v-list :lines="false" density="compact" nav>
             <template v-for="(menuItem, i) in navigationItems" :key="i">
                 <v-list-item v-if="!menuItem.SubItems" :to="menuItem.Path" :active="$route.path === menuItem.Path"

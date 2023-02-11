@@ -1,10 +1,10 @@
 <template>
-  <v-app theme="dark">
+  <v-layout>
     <Sidebar />
     <v-main>
       <router-view />
     </v-main>
-  </v-app>
+  </v-layout>
 </template>
 
 <script>
