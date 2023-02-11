@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell, ipcMain } from 'electron'
+import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron'
 import { release } from 'node:os'
 import { join } from 'node:path'
 
@@ -114,3 +114,10 @@ ipcMain.handle('open-win', (_, arg) => {
     childWindow.loadFile(indexHtml, { hash: arg })
   }
 })
+
+ipcMain.handle("showSelectDirectoryDialog", (e, message) => {
+  return dialog.showOpenDialog(win, {
+    properties: ['openDirectory'],
+    message: "Please select a directory",
+  });
+});

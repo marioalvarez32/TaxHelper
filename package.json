@@ -21,17 +21,25 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build && electron-builder",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint --ext .js,.vue src"
   },
   "devDependencies": {
     "@mdi/font": "^7.1.96",
+    "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@vitejs/plugin-vue": "^4.0.0",
     "autoprefixer": "^10.4.13",
     "electron": "^23.0.0",
     "electron-builder": "^22.10.3",
+    "eslint": "^8.34.0",
+    "eslint-config-standard-with-typescript": "^34.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-vue": "^9.9.0",
     "sass": "^1.58.0",
     "sass-loader": "^13.2.0",
-    "typescript": "^4.9.4",
+    "typescript": "^4.9.5",
     "vite": "^4.0.4",
     "vite-plugin-electron": "^0.11.1",
     "vite-plugin-electron-renderer": "^0.11.4",

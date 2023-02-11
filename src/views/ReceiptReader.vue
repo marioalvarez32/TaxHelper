@@ -1,7 +1,8 @@
 <template>
   <div class="receipt-reader__container">
     <div class="receipt-reader__content">
-      <v-card elevation="5" color="grey-darken-4" class="receipt-reader__card receipt-reader__input-form">
+      <v-card elevation="5" color="grey-darken-4" title="Load directory"
+        class="receipt-reader__card receipt-reader__input-form">
         <v-file-input label="File input"></v-file-input>
       </v-card>
       <v-card elevation="5" color="grey-darken-4" class="receipt-reader__card receipt-reader__input-data">
@@ -17,30 +18,29 @@
 </template>
 
 <script lang="ts">
-import { onMounted, defineComponent } from "vue";
+import { onMounted, defineComponent, ref } from "vue";
+const { ipcRenderer } = require('electron')
 
 export default defineComponent({
   props: {
   },
   setup() {
+    const selectedFileDirectory = ref(null);
 
     function openDirectoyDialog() {
-      const electron = require('electron')
-      const { dialog } = electron
+      ipcRenderer.invoke('showSelectDirectoryDialog', 'Hello from the renderer!')
+        .then((result) => {
+          if (result.canceled) return;
+          selectedFileDirectory.value = result.filePaths[0];
+          scanDirectory();
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
 
-      console.log("🚀 ~ file: ReceiptReader.vue:28 ~ openDirectoyDialog ~ dialog", dialog)
-
-      // Show a file open dialog and get the selected directory
-      const selectedDirectory = dialog.showOpenDialogSync({
-        properties: ['openDirectory']
-      })
-
-      if (!selectedDirectory) {
-        console.log('No directory was selected')
-        return
-      }
-
-      console.log(`Selected directory: ${selectedDirectory[0]}`)
+    function scanDirectory() {
+      console.log("SCANNING");
     }
 
     return {
