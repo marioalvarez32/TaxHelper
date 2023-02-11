@@ -27,7 +27,7 @@
     "@mdi/font": "^7.1.96",
     "@vitejs/plugin-vue": "^4.0.0",
     "autoprefixer": "^10.4.13",
-    "electron": "^22.0.3",
+    "electron": "^23.0.0",
     "electron-builder": "^23.6.0",
     "sass": "^1.58.0",
     "sass-loader": "^13.2.0",
