@@ -8,15 +8,15 @@
 </template>
 
 <script>
-import { onMounted } from "vue";
+import { onMounted } from 'vue';
 import Sidebar from './components/Sidebar.vue';
 
 export default {
   components: {
-    Sidebar,
+    Sidebar
   },
-  setup() {
-  },
+  setup () {
+  }
 };
 </script>
 

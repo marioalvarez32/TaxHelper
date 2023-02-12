@@ -37,22 +37,22 @@
 
 <script>
 export default {
-    setup() {
-        const navigationItems = [
-            { Text: "Dashboard", Path: "/", Icon: "mdi-home" },
-            { Text: "Receipt Reader", Path: "/tools/receipt-reader", Icon: "mdi-file-multiple" },
+  setup () {
+    const navigationItems = [
+      { Text: 'Dashboard', Path: '/', Icon: 'mdi-home' },
+      { Text: 'Receipt Reader', Path: '/tools/receipt-reader', Icon: 'mdi-file-multiple' }
 
-        ];
-        const settingNav = { Text: "Settings", Path: "/settings", Icon: "mdi-cog", };
-        return {
-            selectedItem: 1,
-            navigationItems,
-            settingNav
-        }
-    },
+    ];
+    const settingNav = { Text: 'Settings', Path: '/settings', Icon: 'mdi-cog' };
+    return {
+      selectedItem: 1,
+      navigationItems,
+      settingNav
+    };
+  }
 };
 </script>
-  
+
 <style lang="scss" scoped>
 .sidebar {
     margin-right: 20px;

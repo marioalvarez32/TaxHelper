@@ -18,16 +18,16 @@
 </template>
 
 <script lang="ts">
-import { onMounted, defineComponent, ref } from "vue";
-const { ipcRenderer } = require('electron')
+import { onMounted, defineComponent, ref } from 'vue';
+const { ipcRenderer } = require('electron');
 
 export default defineComponent({
   props: {
   },
-  setup() {
+  setup () {
     const selectedFileDirectory = ref(null);
 
-    function openDirectoyDialog() {
+    function openDirectoyDialog () {
       ipcRenderer.invoke('showSelectDirectoryDialog', 'Hello from the renderer!')
         .then((result) => {
           if (result.canceled) return;
@@ -35,18 +35,18 @@ export default defineComponent({
           scanDirectory();
         })
         .catch(err => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     }
 
-    function scanDirectory() {
-      console.log("SCANNING");
+    function scanDirectory () {
+      console.log('SCANNING');
     }
 
     return {
-      openDirectoyDialog,
-    }
-  },
+      openDirectoyDialog
+    };
+  }
 });
 </script>
 
