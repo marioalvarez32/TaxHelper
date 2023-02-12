@@ -5,7 +5,8 @@
   },
   "extends": [
     "plugin:vue/vue3-essential",
-    "standard-with-typescript"
+    "standard-with-typescript",
+    "eslint:recommended"
   ],
   "overrides": [],
   "parserOptions": {
@@ -19,9 +20,8 @@
     "vue"
   ],
   "rules": {
-    "semi": [
-      2,
-      "always"
-    ]
+    "semi": "off",
+    "@typescript-eslint/semi": "off",
+    "space-before-function-paren": "off"
   }
 }

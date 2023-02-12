@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import { onMounted } from 'vue';
-import Sidebar from './components/Sidebar.vue';
+import { onMounted } from 'vue'
+import Sidebar from './components/Sidebar.vue'
 
 export default {
   components: {
@@ -17,7 +17,7 @@ export default {
   },
   setup () {
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
