@@ -6,6 +6,7 @@ import renderer from 'vite-plugin-electron-renderer'
 import pkg from './package.json'
 const path = require('path')
 import { fileURLToPath, URL } from "url";
+import eslint from 'vite-plugin-eslint'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
@@ -63,10 +64,11 @@ export default defineConfig(({ command }) => {
       renderer({
         nodeIntegration: true,
       }),
+      eslint()
     ],
-    resolve:{
-      alias:{
-        '@' : fileURLToPath(new URL("./src", import.meta.url)),
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL("./src", import.meta.url)),
         vue: 'vue/dist/vue.esm-bundler.js',
       },
     },
