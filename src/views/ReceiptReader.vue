@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { onMounted, defineComponent, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 const { ipcRenderer } = require('electron')
 
 export default defineComponent({
