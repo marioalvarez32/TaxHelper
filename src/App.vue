@@ -7,19 +7,16 @@
   </v-layout>
 </template>
 
-<script>
-import { onMounted } from 'vue'
-import Sidebar from './components/Sidebar.vue'
+<script lang="ts">
+import { onMounted } from 'vue';
+import Sidebar from './components/Sidebar.vue';
 
 export default {
   components: {
-    Sidebar
+    Sidebar,
   },
-  setup () {
-  }
-}
+  setup() {},
+};
 </script>
 
-<style lang="scss" scoped>
-.app__container {}
-</style>
+<style lang="scss" scoped></style>

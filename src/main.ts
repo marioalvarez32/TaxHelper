@@ -16,7 +16,6 @@ app.use(router);
 app.use(pinia);
 app.use(vuetify);
 
-void app.mount('#app')
-  .$nextTick(() => {
-    postMessage({ payload: 'removeLoading' }, '*')
-  });
+void app.mount('#app').$nextTick(() => {
+  postMessage({ payload: 'removeLoading' }, '*');
+});

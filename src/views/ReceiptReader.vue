@@ -1,42 +1,52 @@
 <template>
   <div class="receipt-reader__container">
     <div class="receipt-reader__content">
-      <v-card elevation="5" color="grey-darken-4" title="Load directory"
-        class="receipt-reader__card receipt-reader__input-form">
+      <v-card
+        elevation="5"
+        color="grey-darken-4"
+        title="Load directory"
+        class="receipt-reader__card receipt-reader__input-form"
+      >
         <v-file-input label="File input"></v-file-input>
       </v-card>
-      <v-card elevation="5" color="grey-darken-4" class="receipt-reader__card receipt-reader__input-data">
-        <input type="file" id="dirs" />
+      <v-card
+        elevation="5"
+        color="grey-darken-4"
+        class="receipt-reader__card receipt-reader__input-data"
+      >
+        <input id="dirs" type="file" />
       </v-card>
-      <v-card elevation="5" color="grey-darken-4" class="receipt-reader__card receipt-reader__table">
-        <v-btn variant="outlined" @click="openDirectoyDialog">
-          Button
-        </v-btn>
+      <v-card
+        elevation="5"
+        color="grey-darken-4"
+        class="receipt-reader__card receipt-reader__table"
+      >
+        <v-btn variant="outlined" @click="openDirectoyDialog"> Button </v-btn>
       </v-card>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-const { ipcRenderer } = require('electron')
+import { defineComponent, ref } from 'vue';
+const { ipcRenderer } = require('electron');
 
 export default defineComponent({
-  props: {
-  },
+  props: {},
   setup() {
     const selectedFileDirectory = ref(null);
 
     function openDirectoyDialog() {
-      ipcRenderer.invoke('showSelectDirectoryDialog', 'Hello from the renderer!')
+      ipcRenderer
+        .invoke('showSelectDirectoryDialog', 'Hello from the renderer!')
         .then((result) => {
-          if (result.canceled) return
+          if (result.canceled) return;
           selectedFileDirectory.value = result.filePaths[0];
           scanDirectory();
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
-        })
+        });
     }
 
     function scanDirectory() {
@@ -44,10 +54,10 @@ export default defineComponent({
     }
 
     return {
-      openDirectoyDialog
-    }
-  }
-})
+      openDirectoyDialog,
+    };
+  },
+});
 </script>
 
 <style lang="scss" scoped>
