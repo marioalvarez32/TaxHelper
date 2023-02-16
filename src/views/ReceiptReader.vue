@@ -82,7 +82,6 @@ import { defineComponent, ref } from 'vue';
 import { readXmlDirectory, readXmlFiles } from '../services/FileService';
 import useIsLoading from '../components/ReceiptReader/composables/isLoading';
 import ReceiptType from '../components/models/ReceiptType';
-import { filter } from 'minimatch';
 const { ipcRenderer } = require('electron');
 
 export default defineComponent({
@@ -128,14 +127,13 @@ export default defineComponent({
     }
 
     function addReceipts(receipts: ReceiptType[]) {
-      receipts
-        .filter((receipt) => true)
-        .forEach((receipt) => {
-          receiptsTotal.value += receipt.Total;
-          receiptsSubTotal.value += receipt.SubTotal;
-          receiptsTaxTotal.value += receipt.TaxAmount;
-          addedReceipts.value.push(receipt);
-        });
+      receipts.forEach((receipt) => {
+        if (isReceiptAdded(receipt.UUID)) return;
+        receiptsTotal.value += receipt.Total;
+        receiptsSubTotal.value += receipt.SubTotal;
+        receiptsTaxTotal.value += receipt.TaxAmount;
+        addedReceipts.value.push(receipt);
+      });
 
       filesInDirectory.value = [];
     }
@@ -177,6 +175,8 @@ export default defineComponent({
   width: 100%;
   margin-top: 10px;
   margin-bottom: 20px;
+  grid-template-rows: repeat(12, 1fr);
+  grid-template-columns: repeat(12, 1fr);
 }
 
 .receipt-reader__card {
@@ -210,17 +210,17 @@ export default defineComponent({
 }
 
 .receipt-reader__input-form {
-  grid-row: 1 / span 4;
+  grid-row: 1 / span 5;
   grid-column: 1 / span 6;
 }
 
 .receipt-reader__input-data {
-  grid-row: 1 / span 4;
+  grid-row: 1 / span 5;
   grid-column: 7 / span 6;
 }
 
 .receipt-reader__table {
-  grid-row: 5 / span 8;
+  grid-row: 6 / span 8;
   grid-column: 1 / span 12;
   height: 100%;
   overflow: hidden;
@@ -245,7 +245,7 @@ export default defineComponent({
 .receipt-reader__files-table {
   height: 100px;
   overflow-y: auto;
-  flex-grow: 3;
+  flex-grow: 1;
 }
 
 .receipt-reader__receipts-table {
