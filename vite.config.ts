@@ -24,9 +24,7 @@ export default defineConfig(({ command }) => {
           entry: 'electron/main/index.ts',
           onstart(options) {
             if (process.env.VSCODE_DEBUG) {
-              console.log(
-                /* For `.vscode/.debug.script.mjs` */ '[startup] Electron App'
-              );
+              console.log(/* For `.vscode/.debug.script.mjs` */ '[startup] Electron App');
             } else {
               options.startup();
             }
@@ -37,9 +35,7 @@ export default defineConfig(({ command }) => {
               minify: isBuild,
               outDir: 'dist-electron/main',
               rollupOptions: {
-                external: Object.keys(
-                  'dependencies' in pkg ? pkg.dependencies : {}
-                ),
+                external: Object.keys('dependencies' in pkg ? pkg.dependencies : {}),
               },
             },
           },
@@ -57,9 +53,7 @@ export default defineConfig(({ command }) => {
               minify: isBuild,
               outDir: 'dist-electron/preload',
               rollupOptions: {
-                external: Object.keys(
-                  'dependencies' in pkg ? pkg.dependencies : {}
-                ),
+                external: Object.keys('dependencies' in pkg ? pkg.dependencies : {}),
               },
             },
           },
