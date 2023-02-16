@@ -10,7 +10,7 @@ const myCustomDarkTheme: ThemeDefinition = {
   colors: {
     background: '#f00606',
     surface: '#074ee6',
-    primary: '#f6f5f7',
+    primary: '#074ee6',
     'primary-darken-1': '#3700B3',
     secondary: '#03DAC6',
     'secondary-darken-1': '#018786',
@@ -18,6 +18,7 @@ const myCustomDarkTheme: ThemeDefinition = {
     info: '#2196F3',
     success: '#4CAF50',
     warning: '#FB8C00',
+    'on-surface': '#000000',
   },
 };
 
