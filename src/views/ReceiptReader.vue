@@ -49,7 +49,7 @@
       </v-card>
       <v-card elevation="5" color="grey-darken-4" class="receipt-reader__card receipt-reader__table">
         <div class="receipt-reader__receipts-table">
-          <v-table theme="dark" height="250" density="compact" fixed-header>
+          <v-table theme="dark" density="compact" fixed-header>
             <thead>
               <tr>
                 <th class="text-left">Receipt ID</th>
@@ -118,8 +118,6 @@ export default defineComponent({
         .finally(() => (isLoading.value = false));
     }
 
-    function getFiles() {}
-
     function readFiles() {
       isLoading.value = true;
       readXmlFiles(selectedFileDirectory.value, filesInDirectory.value)
@@ -131,7 +129,7 @@ export default defineComponent({
 
     function addReceipts(receipts: ReceiptType[]) {
       receipts
-        .filter((receipt) => !isReceiptAdded(receipt.UUID))
+        .filter((receipt) => true)
         .forEach((receipt) => {
           receiptsTotal.value += receipt.Total;
           receiptsSubTotal.value += receipt.SubTotal;
@@ -224,6 +222,9 @@ export default defineComponent({
 .receipt-reader__table {
   grid-row: 5 / span 8;
   grid-column: 1 / span 12;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
 }
 
 .v-overlay {
@@ -239,5 +240,24 @@ export default defineComponent({
   align-items: center;
   flex-direction: column;
   gap: 25px;
+}
+
+.receipt-reader__files-table {
+  height: 100px;
+  overflow-y: auto;
+  flex-grow: 3;
+}
+
+.receipt-reader__receipts-table {
+  flex-grow: 1;
+}
+
+:deep(.receipt-reader__receipts-table .v-table) {
+  width: 100%;
+  height: 100%;
+}
+:deep(.receipt-reader__receipts-table .v-table .v-table__wrapper) {
+  width: 100%;
+  height: 100%;
 }
 </style>

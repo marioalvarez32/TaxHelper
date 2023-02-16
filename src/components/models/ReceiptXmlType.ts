@@ -35,7 +35,6 @@ export default class ReceiptXmlType {
   };
 
   constructor(xmlData: any) {
-    console.log('🚀 ~ file: ReceiptXmlType.ts:31 ~ ReceiptXmlType ~ constructor ~ xmlData', xmlData);
     const data = xmlData['cfdi:Comprobante'];
     const summaryData = data['$'];
     this.ReceiptSummary = {
