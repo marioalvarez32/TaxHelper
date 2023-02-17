@@ -14,9 +14,7 @@ import { join } from 'node:path';
 //
 process.env.DIST_ELECTRON = join(__dirname, '..');
 process.env.DIST = join(process.env.DIST_ELECTRON, '../dist');
-process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL
-  ? join(process.env.DIST_ELECTRON, '../public')
-  : process.env.DIST;
+process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL ? join(process.env.DIST_ELECTRON, '../public') : process.env.DIST;
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith('6.1')) app.disableHardwareAcceleration();
@@ -117,8 +115,10 @@ ipcMain.handle('open-win', (_, arg) => {
 });
 
 ipcMain.handle('showSelectDirectoryDialog', (e, message) => {
-  return dialog.showOpenDialog(win, {
-    properties: ['openDirectory'],
-    message: 'Please select a directory',
-  });
+  if (win) {
+    return dialog.showOpenDialog(win, {
+      properties: ['openDirectory'],
+      message: 'Please select a directory',
+    });
+  }
 });

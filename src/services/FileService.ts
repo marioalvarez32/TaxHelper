@@ -35,7 +35,7 @@ export async function readXmlFiles(directory: string, files: string[]): Promise<
     for (const file of files) {
       const filePath = path.join(directory, file);
       const xml = fs.readFileSync(filePath, 'utf8');
-
+      // @ts-ignore
       xml2js.parseString(xml, (error, result) => {
         if (error) {
           reject(error);
