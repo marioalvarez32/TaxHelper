@@ -1,16 +1,14 @@
-import {
-  createRouter,
-  createWebHistory,
-  createWebHashHistory,
-} from 'vue-router';
+import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router';
 
 import ReceiptReader from '@/views/ReceiptReader.vue';
+import Settings from './views/Settings.vue';
 
 const Home = { template: '<div>Home</div>' };
 
 const routes = [
   { path: '/', component: Home },
   { path: '/tools/receipt-reader', component: ReceiptReader },
+  { path: '/settings', component: Settings },
 ];
 
 const router = createRouter({
