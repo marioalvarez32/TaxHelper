@@ -25,7 +25,7 @@ const myCustomDarkTheme: ThemeDefinition = {
     sidebarPrimary: '#dddddd',
     sidebarBackground: '#181a1b',
     darkBlack: '#131415',
-    darkGray: '#202224',
+    lightGray: '#181a1b',
   },
 };
 
