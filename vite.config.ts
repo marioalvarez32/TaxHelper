@@ -67,6 +67,7 @@ export default defineConfig(({ command }) => {
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
+        Views: fileURLToPath(new URL('./src/views', import.meta.url)),
         vue: 'vue/dist/vue.esm-bundler.js',
       },
     },
