@@ -1,7 +1,7 @@
 <template>
   <div class="receipt-reader__container">
     <div class="receipt-reader__content">
-      <v-card elevation="5" color="grey-darken-4" class="receipt-reader__card receipt-reader__input-form">
+      <v-card elevation="5" class="receipt-reader__card receipt-reader__input-form">
         <div class="receipt-reader__card-content">
           <div class="receipt-reader__load-directory">
             <v-overlay :model-value="isLoading" contained>
@@ -14,7 +14,7 @@
           </div>
           <div class="receipt-reader__scan-directory">
             <div class="receipt-reader__files-table">
-              <v-table theme="dark" density="compact" fixed-header>
+              <v-table density="compact" fixed-header>
                 <thead>
                   <tr>
                     <th class="text-left">File name</th>
@@ -31,7 +31,7 @@
           </div>
         </div>
       </v-card>
-      <v-card elevation="5" color="grey-darken-4" class="receipt-reader__card receipt-reader__input-data">
+      <v-card elevation="5" class="receipt-reader__card receipt-reader__input-data">
         <div class="receipt-reader__data-container">
           <h2>
             SubTotal <span>{{ formatToCurrency(receiptsSubTotal) }}</span>
@@ -47,9 +47,9 @@
           </h2>
         </div>
       </v-card>
-      <v-card elevation="5" color="grey-darken-4" class="receipt-reader__card receipt-reader__table">
+      <v-card elevation="5" class="receipt-reader__card receipt-reader__table">
         <div class="receipt-reader__receipts-table">
-          <v-table theme="dark" density="compact" fixed-header>
+          <v-table density="compact" fixed-header>
             <thead>
               <tr>
                 <th class="text-left">Receipt ID</th>

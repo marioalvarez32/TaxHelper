@@ -1,11 +1,11 @@
 <template>
   <div class="sidebar">
-    <v-navigation-drawer permanent rounded="lg" rail elevation="5">
+    <v-navigation-drawer permanent elevation="5" expand-on-hover rail rail-width="60">
       <v-list :lines="false" density="compact" nav class="sidebar__nav-list">
         <template v-for="(menuItem, i) in navigationItems" :key="i">
           <v-list-item :to="menuItem.Path" :active="$route.path === menuItem.Path" active-color="primary">
             <template v-slot:prepend>
-              <v-icon :icon="menuItem.Icon"></v-icon>
+              <v-icon size="30" :icon="menuItem.Icon"></v-icon>
             </template>
 
             <v-list-item-title v-text="menuItem.Text"></v-list-item-title>
@@ -14,7 +14,7 @@
         <div class="sidebar__setting-icon-wrapper">
           <v-list-item :to="settingNav.Path" :active="$route.path === settingNav.Path" active-color="primary">
             <template v-slot:prepend>
-              <v-icon :icon="settingNav.Icon"></v-icon>
+              <v-icon size="30" :icon="settingNav.Icon"></v-icon>
             </template>
 
             <v-list-item-title v-text="settingNav.Text"></v-list-item-title>
@@ -48,23 +48,37 @@ export default {
 
 <style lang="scss" scoped>
 .sidebar {
-  margin-right: 20px;
 }
 
 :deep(.v-navigation-drawer) {
-  left: 20px !important;
-  top: 30px !important;
-  height: calc(100% - 60px) !important;
+  background-color: rgb(var(--v-theme-sidebarBackground));
+  font-weight: 200;
+  border-right-width: 0;
 }
 
 :deep(.v-navigation-drawer__content) {
   margin-top: 50px;
 }
 
+:deep(.v-list-item-title) {
+  margin: 0;
+  line-height: 30px;
+  font-size: 15px;
+  position: relative;
+  display: block;
+  height: auto;
+  white-space: nowrap;
+}
+
 :deep(.v-list.v-list--nav) {
   display: flex;
   flex-direction: column;
   height: 100%;
+  gap: 5px;
+}
+
+:deep(.v-list-item__prepend > .v-icon) {
+  margin-inline-end: 20px;
 }
 
 .sidebar__setting-icon-wrapper {
@@ -74,7 +88,7 @@ export default {
 }
 
 :deep(.v-list.v-list--nav a) {
-  color: #000000 !important;
+  color: rgba(232, 230, 227, 0.8);
 }
 :deep(.v-list.v-list--nav a.text-primary) {
   color: #ffffff !important;

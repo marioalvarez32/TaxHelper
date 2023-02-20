@@ -1,11 +1,11 @@
 {
 	"recommendations": [
 		"vue.vscode-typescript-vue-plugin",
-		"dbaeumer.vscode-eslint",
 		"ms-vscode.vscode-typescript-next",
 		"robbowen.synthwave-vscode",
 		"chakrounanas.turbo-console-log",
 		"antiantisepticeye.vscode-color-picker",
-		"redhat.vscode-xml"
+		"redhat.vscode-xml",
+		"esbenp.prettier-vscode"
 	]
 }
