@@ -1,16 +1,18 @@
 <template>
   <v-layout full-height>
     <SettingsSidebar />
-    <v-main style="min-height: 300px"></v-main>
+    <SettingsMain />
   </v-layout>
 </template>
 
 <script lang="ts">
 import SettingsSidebar from '@/components/Settings/SettingsSidebar.vue';
+import SettingsMain from '../components/Settings/SettingsMain.vue';
 
 export default {
   components: {
     SettingsSidebar,
+    SettingsMain,
   },
   setup() {
     return {};
