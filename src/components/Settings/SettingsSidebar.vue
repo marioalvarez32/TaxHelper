@@ -3,19 +3,11 @@
     <v-navigation-drawer class="settings__navigation">
       <h4>Settings</h4>
       <v-list density="compact">
-        <v-list-item active-color="primary">
+        <v-list-item link active-color="primary" density="compact" :active="userSettings.Interface.Name === selectedSettingGroup">
           <template v-slot:prepend>
-            <v-icon icon="mdi-palette"></v-icon>
+            <v-icon :icon="userSettings.Interface.Icon"></v-icon>
           </template>
-
-          <v-list-item-title v-text="`Interface`"></v-list-item-title>
-        </v-list-item>
-        <v-list-item active-color="primary">
-          <template v-slot:prepend>
-            <v-icon icon="mdi-palette"></v-icon>
-          </template>
-
-          <v-list-item-title v-text="`Interface`"></v-list-item-title>
+          <v-list-item-title v-text="userSettings.Interface.Label"></v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -23,9 +15,18 @@
 </template>
 
 <script lang="ts">
+import { toRefs } from 'vue';
+import { useSettingsStore } from './Store/SettingsStore';
+
 export default {
   setup() {
-    return {};
+    const settingsStore = useSettingsStore();
+    const { userSettings, selectedSettingGroup } = toRefs(settingsStore);
+
+    return {
+      userSettings,
+      selectedSettingGroup,
+    };
   },
 };
 </script>
