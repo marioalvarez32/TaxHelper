@@ -9,7 +9,7 @@ const myCustomDarkTheme: ThemeDefinition = {
   dark: true,
   colors: {
     background: '#222426',
-    'on-background': '#181a1b',
+    'on-background': '#b9b3aa',
     surface: '#181a1b',
     textColor: '#b9b3aa',
     'on-surface': '#b9b3aa',
