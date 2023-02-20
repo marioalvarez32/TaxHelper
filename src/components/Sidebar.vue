@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar">
-    <v-navigation-drawer permanent elevation="5" expand-on-hover rail rail-width="60">
-      <v-list :lines="false" density="compact" nav class="sidebar__nav-list">
+    <v-navigation-drawer elevation="3" permanent expand-on-hover rail rail-width="60">
+      <v-list :lines="false" density="default" nav class="sidebar__nav-list">
         <template v-for="(menuItem, i) in navigationItems" :key="i">
           <v-list-item :to="menuItem.Path" :active="$route.path === menuItem.Path" active-color="primary">
             <template v-slot:prepend>
@@ -53,7 +53,6 @@ export default {
 :deep(.v-navigation-drawer) {
   background-color: rgb(var(--v-theme-sidebarBackground));
   font-weight: 200;
-  border-right-width: 0;
 }
 
 :deep(.v-navigation-drawer__content) {
@@ -85,12 +84,5 @@ export default {
   display: flex;
   align-items: flex-end;
   height: 100%;
-}
-
-:deep(.v-list.v-list--nav a) {
-  color: rgba(232, 230, 227, 0.8);
-}
-:deep(.v-list.v-list--nav a.text-primary) {
-  color: #ffffff !important;
 }
 </style>
