@@ -3,13 +3,6 @@
     <SettingsItemGroup title="Theme" description="Personalize your experience by selecting a different color or selecting a dark or light theme.">
       <template #settings>
         <SettingItem settingType="predefined-color-selection" title="Application Theme" description="Select a dark or light theme" />
-        <SettingItem settingType="predefined-color-selection" title="Application Theme" description="Select a dark or light theme" />
-        <SettingItem settingType="predefined-color-selection" title="Application Theme" description="Select a dark or light theme" />
-        <SettingItem settingType="predefined-color-selection" title="Application Theme" description="Select a dark or light theme" />
-        <SettingItem settingType="predefined-color-selection" title="Application Theme" description="Select a dark or light theme" />
-        <SettingItem settingType="predefined-color-selection" title="Application Theme" description="Select a dark or light theme" />
-        <SettingItem settingType="predefined-color-selection" title="Application Theme" description="Select a dark or light theme" />
-        <SettingItem settingType="predefined-color-selection" title="Application Theme" description="Select a dark or light theme" />
       </template>
     </SettingsItemGroup>
     <v-divider></v-divider>
