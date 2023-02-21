@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar">
-    <v-navigation-drawer elevation="3" permanent expand-on-hover rail rail-width="60">
+    <v-navigation-drawer elevation="10" permanent expand-on-hover rail rail-width="60">
       <v-list :lines="false" density="default" nav class="sidebar__nav-list">
         <template v-for="(menuItem, i) in navigationItems" :key="i">
           <v-list-item :to="menuItem.Path" :active="$route.path === menuItem.Path" active-color="primary">
@@ -53,6 +53,7 @@ export default {
 :deep(.v-navigation-drawer) {
   background-color: rgb(var(--v-theme-sidebarBackground));
   font-weight: 200;
+  border-right: none;
 }
 
 :deep(.v-navigation-drawer__content) {
