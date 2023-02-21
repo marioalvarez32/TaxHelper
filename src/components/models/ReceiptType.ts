@@ -7,7 +7,6 @@ export default class ReceiptType {
   SubTotal: number;
   Total: number;
   TaxAmount: number;
-  TaxPercentage: string;
 
   constructor(receipt: any) {
     this.IssuerName = receipt.IssuerName;
@@ -17,7 +16,6 @@ export default class ReceiptType {
     this.SubTotal = parseFloat(receipt.SubTotal);
     this.Total = parseFloat(receipt.Total);
     this.TaxAmount = parseFloat(receipt.TaxAmount);
-    this.TaxPercentage = receipt.TaxPercentage;
     this.UUID = receipt.UUID;
   }
 }

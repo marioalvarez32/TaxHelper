@@ -19,9 +19,6 @@ export default class ReceiptXmlType {
   };
   Taxes: {
     Amount: string;
-    TaxType: string;
-    TaxPercentage: string;
-    TaxFactor: string;
   };
   Receiver: {
     Name: string;
@@ -52,12 +49,9 @@ export default class ReceiptXmlType {
       ReceiptType: summaryData['TipoDeComprobante'],
       ReceiptVersion: summaryData['Version'],
     };
-    const taxInformation = data['cfdi:Conceptos']['0']['cfdi:Concepto'][0]['cfdi:Impuestos'][0]['cfdi:Traslados'][0]['cfdi:Traslado'][0]['$'];
+    const totalTax = data['cfdi:Impuestos']['0']['$'];
     this.Taxes = {
-      Amount: taxInformation['Importe'],
-      TaxType: taxInformation['Impuesto'],
-      TaxPercentage: taxInformation['TasaOCuota'],
-      TaxFactor: taxInformation['TipFactor'],
+      Amount: totalTax['TotalImpuestosTrasladados'],
     };
     const receiver = data['cfdi:Receptor']['0']['$'];
     this.Receiver = {
