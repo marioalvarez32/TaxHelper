@@ -2,7 +2,7 @@
   <div class="receipt-reader__container">
     <div class="receipt-reader__content">
       <v-card elevation="5" class="receipt-reader__card receipt-reader__input-form">
-        <div class="receipt-reader__card-content">
+        <div class="receipt-reader__load-directory-content">
           <div class="receipt-reader__load-directory">
             <v-overlay :model-value="isLoading" contained>
               <v-progress-circular :size="75" color="primary" indeterminate></v-progress-circular>
@@ -12,7 +12,7 @@
             <h4>Selected Directory:</h4>
             {{ selectedFileDirectory }}
           </div>
-          <div class="receipt-reader__scan-directory">
+          <div class="receipt-reader__directory-data">
             <div class="receipt-reader__files-table">
               <v-table density="compact" fixed-header>
                 <thead>
@@ -186,37 +186,36 @@ export default defineComponent({
 
 .receipt-reader__load-directory {
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 25px;
+  flex-basis: 40%;
 }
 
-.receipt-reader__scan-directory {
+.receipt-reader__directory-data {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  flex-grow: 2;
   gap: 20px;
+  flex-basis: 60%;
 }
 
-.receipt-reader__card-content {
+.receipt-reader__load-directory-content {
   height: 100%;
   padding: 20px;
   display: flex;
-  flex-direction: column;
   position: relative;
 }
 
 .receipt-reader__input-form {
   grid-row: 1 / span 5;
-  grid-column: 1 / span 6;
+  grid-column: 1 / span 8;
 }
 
 .receipt-reader__input-data {
   grid-row: 1 / span 5;
-  grid-column: 7 / span 6;
+  grid-column: 9 / span 4;
 }
 
 .receipt-reader__table {
@@ -246,6 +245,9 @@ export default defineComponent({
   height: 100px;
   overflow-y: auto;
   flex-grow: 1;
+  width: 100%;
+  border: 1px solid;
+  border-color: rgba(var(--v-theme-borderColor), var(--v-border-opacity));
 }
 
 .receipt-reader__receipts-table {

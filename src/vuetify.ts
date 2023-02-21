@@ -11,7 +11,6 @@ const myCustomDarkTheme: ThemeDefinition = {
     background: '#222426',
     'on-background': '#b9b3aa',
     surface: '#181a1b',
-    textColor: '#b9b3aa',
     'on-surface': '#b9b3aa',
     fontWeight: '300',
     primary: '#1a73e8',
@@ -25,7 +24,8 @@ const myCustomDarkTheme: ThemeDefinition = {
     sidebarPrimary: '#dddddd',
     sidebarBackground: '#181a1b',
     darkBlack: '#131415',
-    lightGray: '#181a1b',
+    lightGray: '#1b1818',
+    borderColor: '#686868',
   },
 };
 
