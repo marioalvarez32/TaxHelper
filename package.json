@@ -48,6 +48,7 @@
     "vue-tsc": "^1.0.24"
   },
   "dependencies": {
+    "exceljs": "^4.3.0",
     "pinia": "^2.0.30",
     "vue-router": "^4.1.6",
     "vuetify": "^3.1.4",
