@@ -71,7 +71,7 @@ export default class ReceiptXmlType {
 
   convertToReceiptType(): ReceiptType {
     const { SubTotal, Total } = this.ReceiptSummary;
-    const { Amount: TaxAmount, TaxPercentage } = this.Taxes;
+    const { Amount: TaxAmount } = this.Taxes;
     const { Name: ReceiverName, Rfc: ReceiverRfc } = this.Receiver;
     const { Name: IssuerName, Rfc: IssuerRfc } = this.Issuer;
 
@@ -83,7 +83,6 @@ export default class ReceiptXmlType {
       SubTotal,
       Total,
       TaxAmount,
-      TaxPercentage,
       UUID: this.UUID,
     });
   }
