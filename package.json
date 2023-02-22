@@ -1,8 +1,8 @@
 {
-  "name": "electron-vue-vite",
-  "version": "2.0.0",
+  "name": "taxhelper",
+  "version": "0.0.1",
   "main": "dist-electron/main/index.js",
-  "description": "Tax Reader",
+  "description": "Tax Helper",
   "author": "xd",
   "license": "MIT",
   "private": true,
