@@ -33,22 +33,25 @@
       </v-card>
       <v-card elevation="5" class="receipt-reader__card receipt-reader__input-data">
         <div class="receipt-reader__data-container">
-          <h2>
+          <h3>
             SubTotal <span>{{ formatToCurrency(receiptsSubTotal) }}</span>
-          </h2>
-          <h2>
+          </h3>
+          <h3>
             Total Tax Amount <span>{{ formatToCurrency(receiptsTaxTotal) }}</span>
-          </h2>
-          <h2>
-            Total <span>{{ formatToCurrency(receiptsTotal) }}</span>
-          </h2>
-          <h2>
+          </h3>
+          <h3>
+            Total <span>{{ formatToCurrency(receiptsTotalAmount) }}</span>
+          </h3>
+          <h3>
             Total receipts read: <span>{{ addedReceipts.length }}</span>
-          </h2>
+          </h3>
         </div>
       </v-card>
       <v-card elevation="5" class="receipt-reader__card receipt-reader__table">
-        <div class="receipt-reader__receipts-table">
+        <div class="receipt-reader__table-container">
+          <v-overlay :model-value="isExportingData" contained>
+            <v-progress-circular :size="75" color="primary" indeterminate></v-progress-circular>
+          </v-overlay>
           <v-table density="compact" fixed-header>
             <thead>
               <tr>
@@ -71,6 +74,11 @@
               </tr>
             </tbody>
           </v-table>
+
+          <fieldset class="receipt-reader__table-actions" :disabled="addedReceipts.length <= 0">
+            <v-btn color="primary" @click="exportTableToExcel"> Export </v-btn>
+            <v-btn color="secondary" @click="clearReceiptsTable"> Clear </v-btn>
+          </fieldset>
         </div>
       </v-card>
     </div>
@@ -78,10 +86,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 import { readXmlDirectory, readXmlFiles } from '../services/FileService';
 import useIsLoading from '../components/ReceiptReader/composables/isLoading';
 import ReceiptType from '../components/models/ReceiptType';
+import { exportReceiptDataToExcel } from '../components/ReceiptReader/Services/ReceiptReaderService';
 const { ipcRenderer } = require('electron');
 
 export default defineComponent({
@@ -90,11 +99,13 @@ export default defineComponent({
     const selectedFileDirectory = ref('');
     const filesInDirectory = ref<string[]>([]);
     const addedReceipts = ref<ReceiptType[]>([]);
-    const receiptsTotal = ref<number>(0);
-    const receiptsSubTotal = ref<number>(0);
-    const receiptsTaxTotal = ref<number>(0);
+    const receiptsTotalAmount = computed<number>(() => addedReceipts.value.reduce((acc, receipt) => acc + receipt.Total, 0));
+    const receiptsSubTotal = computed<number>(() => addedReceipts.value.reduce((acc, receipt) => acc + receipt.SubTotal, 0));
+    const receiptsTaxTotal = computed<number>(() => addedReceipts.value.reduce((acc, receipt) => acc + receipt.TaxAmount, 0));
 
+    const isExportingData = ref(false);
     const { isLoading } = useIsLoading();
+
     function openDirectoyDialog() {
       ipcRenderer
         .invoke('showSelectDirectoryDialog', 'Hello from the renderer!')
@@ -129,9 +140,6 @@ export default defineComponent({
     function addReceipts(receipts: ReceiptType[]) {
       receipts.forEach((receipt) => {
         if (isReceiptAdded(receipt.UUID)) return;
-        receiptsTotal.value += receipt.Total;
-        receiptsSubTotal.value += receipt.SubTotal;
-        receiptsTaxTotal.value += receipt.TaxAmount;
         addedReceipts.value.push(receipt);
       });
 
@@ -146,6 +154,29 @@ export default defineComponent({
       return `${number.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
 
+    function clearReceiptsTable() {
+      addedReceipts.value = [];
+    }
+
+    function exportTableToExcel() {
+      let filePath = null;
+      ipcRenderer
+        .invoke('showSaveFileDialog', 'Hello from the renderer!')
+        .then((result) => {
+          if (result.canceled) return;
+          filePath = result.filePath;
+          isExportingData.value = true;
+          exportReceiptDataToExcel(addedReceipts.value, filePath)
+            .catch((err) => {
+              console.log(err);
+            })
+            .finally(() => (isExportingData.value = false));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
     return {
       openDirectoyDialog,
       selectedFileDirectory,
@@ -153,10 +184,13 @@ export default defineComponent({
       filesInDirectory,
       isLoading,
       addedReceipts,
-      receiptsTotal,
+      receiptsTotalAmount,
       receiptsSubTotal,
       receiptsTaxTotal,
       formatToCurrency,
+      clearReceiptsTable,
+      isExportingData,
+      exportTableToExcel,
     };
   },
 });
@@ -224,6 +258,32 @@ export default defineComponent({
   height: 100%;
   overflow: hidden;
   display: flex;
+
+  .receipt-reader__table-container {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+  }
+  :deep(.receipt-reader__table-container .v-table) {
+    width: 100%;
+    border: 1px solid;
+    border-color: rgba(var(--v-theme-borderColor), var(--v-border-opacity));
+    flex-basis: 90%;
+    overflow: auto;
+  }
+  :deep(.receipt-reader__table-container .v-table .v-table__wrapper) {
+    width: 100%;
+  }
+
+  .receipt-reader__table-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    align-items: center;
+    flex-basis: 10%;
+    margin: 0 25px;
+    border: none;
+  }
 }
 
 .v-overlay {
@@ -248,18 +308,5 @@ export default defineComponent({
   width: 100%;
   border: 1px solid;
   border-color: rgba(var(--v-theme-borderColor), var(--v-border-opacity));
-}
-
-.receipt-reader__receipts-table {
-  flex-grow: 1;
-}
-
-:deep(.receipt-reader__receipts-table .v-table) {
-  width: 100%;
-  height: 100%;
-}
-:deep(.receipt-reader__receipts-table .v-table .v-table__wrapper) {
-  width: 100%;
-  height: 100%;
 }
 </style>
