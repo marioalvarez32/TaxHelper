@@ -122,3 +122,17 @@ ipcMain.handle('showSelectDirectoryDialog', (e, message) => {
     });
   }
 });
+
+ipcMain.handle('showSaveFileDialog', (e, message) => {
+  if (win) {
+    return dialog.showSaveDialog({
+      title: 'Save Excel File',
+      defaultPath: 'data.xlsx',
+      buttonLabel: 'Save',
+      filters: [
+        { name: 'Excel Files', extensions: ['xlsx'] },
+        { name: 'All Files', extensions: ['*'] },
+      ],
+    });
+  }
+});
