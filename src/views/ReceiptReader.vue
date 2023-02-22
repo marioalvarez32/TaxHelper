@@ -4,7 +4,7 @@
       <v-card elevation="5" class="receipt-reader__card receipt-reader__input-form">
         <div class="receipt-reader__load-directory-content">
           <div class="receipt-reader__load-directory">
-            <v-overlay :model-value="isLoading" contained>
+            <v-overlay persistent :model-value="isLoading" contained>
               <v-progress-circular :size="75" color="primary" indeterminate></v-progress-circular>
             </v-overlay>
             <h3>Load Directory</h3>
@@ -27,7 +27,7 @@
                 </tbody>
               </v-table>
             </div>
-            <v-btn :disabled="filesInDirectory.length <= 0" color="primary" @click="readFiles"> Read XML receipts </v-btn>
+            <v-btn :disabled="filesInDirectory.length <= 0 || isExportingData" color="primary" @click="readFiles"> Read XML receipts </v-btn>
           </div>
         </div>
       </v-card>
@@ -49,7 +49,7 @@
       </v-card>
       <v-card elevation="5" class="receipt-reader__card receipt-reader__table">
         <div class="receipt-reader__table-container">
-          <v-overlay :model-value="isExportingData" contained>
+          <v-overlay persistent :model-value="isExportingData" contained>
             <v-progress-circular :size="75" color="primary" indeterminate></v-progress-circular>
           </v-overlay>
           <v-table density="compact" fixed-header>
