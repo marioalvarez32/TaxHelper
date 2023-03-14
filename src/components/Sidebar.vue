@@ -12,7 +12,7 @@
           </v-list-item>
         </template>
         <div class="sidebar__setting-icon-wrapper">
-          <v-list-item :to="settingNav.Path" :active="$route.path === settingNav.Path" active-color="primary">
+          <v-list-item link active-color="primary">
             <template v-slot:prepend>
               <v-icon size="30" :icon="settingNav.Icon"></v-icon>
             </template>
