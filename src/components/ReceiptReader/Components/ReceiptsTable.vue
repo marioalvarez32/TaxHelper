@@ -19,9 +19,9 @@
           <td>{{ file.IssuerName }}</td>
           <td>{{ file.IssuerRfc }}</td>
           <td>{{ file.ReceiverName }}</td>
-          <td>${{ file.SubTotal }}</td>
-          <td>${{ file.Total }}</td>
-          <td>${{ file.TaxAmount }}</td>
+          <td>{{ formatter.format(file.SubTotal) }}</td>
+          <td>{{ formatter.format(file.Total) }}</td>
+          <td>{{ formatter.format(file.TaxAmount) }}</td>
         </tr>
       </tbody>
     </v-table>
@@ -41,9 +41,9 @@
           <td>{{ group.IssuerName }}</td>
           <td>{{ group.IssuerRfc }}</td>
           <td>{{ group.Receipts.length }}</td>
-          <td>${{ group.SubTotal }}</td>
-          <td>${{ group.Total }}</td>
-          <td>${{ group.TaxAmount }}</td>
+          <td>{{ formatter.format(group.SubTotal) }}</td>
+          <td>{{ formatter.format(group.Total) }}</td>
+          <td>{{ formatter.format(group.TaxAmount) }}</td>
         </tr>
       </tbody>
     </v-table>
@@ -90,8 +90,14 @@ export default {
       }, {});
     }
 
+    const formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    });
+
     return {
       receiptsByIssuerRFC,
+      formatter,
     };
   },
 };
