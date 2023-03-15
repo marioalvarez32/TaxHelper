@@ -1,7 +1,7 @@
 <template>
   <div class="receipt-reader__container">
     <div class="receipt-reader__content">
-      <v-card elevation="5" class="receipt-reader__card receipt-reader__input-form">
+      <v-card elevation="5" rounded="lg" class="receipt-reader__card receipt-reader__input-form">
         <div class="receipt-reader__load-directory-content">
           <div class="receipt-reader__load-directory">
             <v-overlay persistent :model-value="isLoading" contained>
@@ -31,7 +31,7 @@
           </div>
         </div>
       </v-card>
-      <v-card elevation="5" class="receipt-reader__card receipt-reader__input-data">
+      <v-card elevation="5" rounded="lg" class="receipt-reader__card receipt-reader__input-data">
         <div class="receipt-reader__data-container">
           <h3>
             SubTotal <span>{{ formatToCurrency(receiptsSubTotal) }}</span>
@@ -47,40 +47,21 @@
           </h3>
         </div>
       </v-card>
-      <v-card elevation="5" class="receipt-reader__card receipt-reader__table">
-        <div class="receipt-reader__table-container">
-          <v-overlay persistent :model-value="isExportingData" contained>
-            <v-progress-circular :size="75" color="primary" indeterminate></v-progress-circular>
-          </v-overlay>
-          <v-table density="compact" fixed-header>
-            <thead>
-              <tr>
-                <th class="text-left">Receipt ID</th>
-                <th class="text-left">Issuer</th>
-                <th class="text-left">Receiver</th>
-                <th class="text-left">Sub Total</th>
-                <th class="text-left">Total</th>
-                <th class="text-left">Tax Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="file in addedReceipts" :key="file.UUID">
-                <td>{{ file.UUID }}</td>
-                <td>{{ file.IssuerName }}</td>
-                <td>{{ file.ReceiverName }}</td>
-                <td>${{ file.SubTotal }}</td>
-                <td>${{ file.Total }}</td>
-                <td>${{ file.TaxAmount }}</td>
-              </tr>
-            </tbody>
-          </v-table>
-
-          <fieldset class="receipt-reader__table-actions" :disabled="addedReceipts.length <= 0">
-            <v-btn color="primary" @click="exportTableToExcel"> Export </v-btn>
-            <v-btn color="secondary" @click="clearReceiptsTable"> Clear </v-btn>
-          </fieldset>
+      <div class="table-container">
+        <div class="table-header">
+          <div class="table-header__left">
+            <v-select v-model="selectedTableView" :items="tableViews" single-line item-title="label" item-value="view" label="Select" prepend-inner-icon="mdi-format-list-bulleted" density="compact" variant="solo" hide-details></v-select>
+          </div>
+          <div class="table-header__right">
+            <fieldset class="receipt-reader__table-actions">
+              <v-btn :disabled="addedReceipts.length <= 0 || selectedTableView != 'default'" class="table__button" color="blue-grey" size="small" prepend-icon="mdi-export" @click="exportTableToExcel">Export</v-btn>
+            </fieldset>
+          </div>
         </div>
-      </v-card>
+        <v-card elevation="5" rounded="lg" class="receipt-reader__card receipt-reader__table">
+          <ReceiptsTable :added-receipts="addedReceipts" :isExportingData="isExportingData" :selected-table-view="selectedTableView" />
+        </v-card>
+      </div>
     </div>
   </div>
 </template>
@@ -92,9 +73,13 @@ import useIsLoading from '../components/ReceiptReader/composables/isLoading';
 import ReceiptType from '../components/models/ReceiptType';
 import { exportReceiptDataToExcel } from '../components/ReceiptReader/Services/ReceiptReaderService';
 const { ipcRenderer } = require('electron');
+import ReceiptsTable from '../components/ReceiptReader/Components/ReceiptsTable.vue';
 
 export default defineComponent({
   props: {},
+  components: {
+    ReceiptsTable,
+  },
   setup() {
     const selectedFileDirectory = ref('');
     const filesInDirectory = ref<string[]>([]);
@@ -102,7 +87,11 @@ export default defineComponent({
     const receiptsTotalAmount = computed<number>(() => addedReceipts.value.reduce((acc, receipt) => acc + receipt.Total, 0));
     const receiptsSubTotal = computed<number>(() => addedReceipts.value.reduce((acc, receipt) => acc + receipt.SubTotal, 0));
     const receiptsTaxTotal = computed<number>(() => addedReceipts.value.reduce((acc, receipt) => acc + receipt.TaxAmount, 0));
-
+    const tableViews = [
+      { view: 'default', label: 'Default View' },
+      { view: 'grouped-by-issuer-RFC', label: 'Grouped By Issuer RFC' },
+    ];
+    const selectedTableView = ref('default');
     const isExportingData = ref(false);
     const { isLoading } = useIsLoading();
 
@@ -191,6 +180,8 @@ export default defineComponent({
       clearReceiptsTable,
       isExportingData,
       exportTableToExcel,
+      tableViews,
+      selectedTableView,
     };
   },
 });
@@ -243,22 +234,34 @@ export default defineComponent({
 }
 
 .receipt-reader__input-form {
-  grid-row: 1 / span 5;
+  grid-row: 1 / span 4;
   grid-column: 1 / span 8;
 }
 
 .receipt-reader__input-data {
-  grid-row: 1 / span 5;
+  grid-row: 1 / span 4;
   grid-column: 9 / span 4;
 }
 
-.receipt-reader__table {
+.table-container {
   grid-row: 6 / span 8;
   grid-column: 1 / span 12;
   height: 100%;
   overflow: hidden;
-  display: flex;
 
+  .table-header {
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .table__button {
+      font-size: 10px;
+    }
+  }
+  .receipt-reader__table {
+    height: calc(100% - 50px);
+  }
   .receipt-reader__table-container {
     display: flex;
     flex-direction: column;
@@ -280,8 +283,6 @@ export default defineComponent({
     justify-content: flex-end;
     gap: 15px;
     align-items: center;
-    flex-basis: 10%;
-    margin: 0 25px;
     border: none;
   }
 }
