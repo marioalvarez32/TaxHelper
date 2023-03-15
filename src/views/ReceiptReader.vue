@@ -234,12 +234,12 @@ export default defineComponent({
 }
 
 .receipt-reader__input-form {
-  grid-row: 1 / span 4;
+  grid-row: 1 / span 5;
   grid-column: 1 / span 8;
 }
 
 .receipt-reader__input-data {
-  grid-row: 1 / span 4;
+  grid-row: 1 / span 5;
   grid-column: 9 / span 4;
 }
 
