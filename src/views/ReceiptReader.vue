@@ -52,6 +52,7 @@
           <div class="table-header__left">
             <v-select v-model="selectedTableView" :items="tableViews" single-line item-title="label" item-value="view" label="Select" prepend-inner-icon="mdi-format-list-bulleted" density="compact" variant="solo" hide-details></v-select>
           </div>
+          <div v-if="ommittedFiles.length > 0">{{ ommittedFiles.length }} Ommited Files</div>
           <div class="table-header__right">
             <fieldset class="receipt-reader__table-actions">
               <v-btn :disabled="addedReceipts.length <= 0 || selectedTableView != 'default'" class="table__button" color="blue-grey" size="small" prepend-icon="mdi-export" @click="exportTableToExcel">Export</v-btn>
@@ -87,6 +88,8 @@ export default defineComponent({
     const receiptsTotalAmount = computed<number>(() => addedReceipts.value.reduce((acc, receipt) => acc + receipt.Total, 0));
     const receiptsSubTotal = computed<number>(() => addedReceipts.value.reduce((acc, receipt) => acc + receipt.SubTotal, 0));
     const receiptsTaxTotal = computed<number>(() => addedReceipts.value.reduce((acc, receipt) => acc + receipt.TaxAmount, 0));
+    const ommittedFiles = ref<string[]>([]);
+
     const tableViews = [
       { view: 'default', label: 'Default View' },
       { view: 'grouped-by-issuer-RFC', label: 'Grouped By Issuer RFC' },
@@ -120,8 +123,9 @@ export default defineComponent({
     function readFiles() {
       isLoading.value = true;
       readXmlFiles(selectedFileDirectory.value, filesInDirectory.value)
-        .then((files: ReceiptType[]) => {
-          addReceipts(files);
+        .then((result) => {
+          addReceipts(result.ReceiptsRead);
+          ommittedFiles.value = result.FilesOmmited;
         })
         .finally(() => (isLoading.value = false));
     }
@@ -145,6 +149,7 @@ export default defineComponent({
 
     function clearReceiptsTable() {
       addedReceipts.value = [];
+      ommittedFiles.value = [];
     }
 
     function exportTableToExcel() {
@@ -182,6 +187,7 @@ export default defineComponent({
       exportTableToExcel,
       tableViews,
       selectedTableView,
+      ommittedFiles,
     };
   },
 });
@@ -260,14 +266,16 @@ export default defineComponent({
     }
   }
   .receipt-reader__table {
-    height: calc(100% - 50px);
+    height: 100%;
   }
   .receipt-reader__table-container {
     display: flex;
     flex-direction: column;
     flex-basis: 100%;
+    height: 100%;
   }
   :deep(.receipt-reader__table-container .v-table) {
+    height: 100%;
     width: 100%;
     border: 1px solid;
     border-color: rgba(var(--v-theme-borderColor), var(--v-border-opacity));
