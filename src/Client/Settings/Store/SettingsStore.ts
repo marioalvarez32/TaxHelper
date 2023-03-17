@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import AppSettings from '../Models/AppSettings';
 import SettingsGroup from '../Models/SettingsGroup';
-import GeneralSettings from '../GeneralSettings.vue';
+import GeneralSettings from '../Components/GeneralSettings.vue';
 import { Component } from 'vue';
 
 interface SettingsStore {

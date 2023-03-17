@@ -2,7 +2,7 @@ import ExcelJS from 'exceljs';
 import fs from 'fs';
 const path = require('path');
 
-import ReceiptType from '../../models/ReceiptType';
+import ReceiptType from '../Models/ReceiptType';
 
 export function exportReceiptDataToExcel(data: ReceiptType[], filePath: string): Promise<void> {
   console.log('🚀 ~ file: ReceiptReaderService.ts:6 ~ exportReceiptDataToExcel ~ data:', data);

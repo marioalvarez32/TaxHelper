@@ -4,7 +4,7 @@ import vue from '@vitejs/plugin-vue';
 import electron from 'vite-plugin-electron';
 import renderer from 'vite-plugin-electron-renderer';
 import pkg from './package.json';
-const path = require('path');
+import path from 'path';
 import { fileURLToPath, URL } from 'url';
 
 // https://vitejs.dev/config/
@@ -33,9 +33,9 @@ export default defineConfig(({ command }) => {
             build: {
               sourcemap,
               minify: isBuild,
-              outDir: 'dist-electron/main',
+              outDir: path.resolve(__dirname, 'dist-electron/main'),
               rollupOptions: {
-                external: Object.keys('dependencies' in pkg ? pkg.dependencies : {}),
+                external: Object.keys(pkg.dependencies ?? {}),
               },
             },
           },
@@ -66,7 +66,7 @@ export default defineConfig(({ command }) => {
     ],
     resolve: {
       alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url)),
+        '@': path.resolve(__dirname, './src'),
         Views: fileURLToPath(new URL('./src/views', import.meta.url)),
         vue: 'vue/dist/vue.esm-bundler.js',
       },
@@ -80,6 +80,5 @@ export default defineConfig(({ command }) => {
           port: +url.port,
         };
       })(),
-    clearScreen: false,
   };
 });

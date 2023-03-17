@@ -1,4 +1,4 @@
-import ReceiptType from '../../models/ReceiptType';
+import ReceiptType from './ReceiptType';
 
 export default class ReceiptsGrouped {
   Key: string;

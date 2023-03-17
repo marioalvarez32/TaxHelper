@@ -6,8 +6,8 @@
 </template>
 
 <script lang="ts">
-import SettingsSidebar from '@/components/Settings/SettingsSidebar.vue';
-import SettingsMain from '../components/Settings/SettingsMain.vue';
+import SettingsSidebar from './Components/SettingsSidebar.vue';
+import SettingsMain from './Components/SettingsMain.vue';
 
 export default {
   components: {

@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router';
 
-import ReceiptReader from '@/views/ReceiptReader.vue';
-import Settings from './views/Settings.vue';
+import ReceiptReader from '@/Client/ReceiptReader/ReceiptReader.vue';
+import Settings from '@/Client/Settings/Settings.vue';
 
 const Home = { template: '<div>Home</div>' };
 

@@ -69,12 +69,12 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
-import { readXmlDirectory, readXmlFiles } from '../services/FileService';
-import useIsLoading from '../components/ReceiptReader/composables/isLoading';
-import ReceiptType from '../components/models/ReceiptType';
-import { exportReceiptDataToExcel } from '../components/ReceiptReader/Services/ReceiptReaderService';
+import { readXmlDirectory, readXmlFiles } from './Services/FileService';
+import useIsLoading from './Composables/IsLoading';
+import ReceiptType from '@/Client/ReceiptReader/Models/ReceiptType';
+import { exportReceiptDataToExcel } from './Services/ReceiptReaderService';
 const { ipcRenderer } = require('electron');
-import ReceiptsTable from '../components/ReceiptReader/Components/ReceiptsTable.vue';
+import ReceiptsTable from './Components/ReceiptsTable.vue';
 
 export default defineComponent({
   props: {},

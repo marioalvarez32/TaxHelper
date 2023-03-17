@@ -11,10 +11,10 @@
 
 <script lang="ts">
 import { toRefs } from 'vue';
-import SettingsItemGroup from '../Settings/Components/SettingsItemGroup.vue';
-import SettingItem from '../Settings/Components/SettingItem.vue';
-import SettingsGroup from './Models/SettingsGroup';
-import { useSettingsStore } from './Store/SettingsStore';
+import SettingsItemGroup from './SettingsItemGroup.vue';
+import SettingItem from './SettingItem.vue';
+import SettingsGroup from '../Models/SettingsGroup';
+import { useSettingsStore } from '../Store/SettingsStore';
 
 export default {
   components: {

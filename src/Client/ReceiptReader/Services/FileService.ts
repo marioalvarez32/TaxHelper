@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import ReceiptType from '../components/models/ReceiptType';
-import ReceiptXmlType from '../components/models/ReceiptXmlType';
+import ReceiptType from '../Models/ReceiptType';
+import ReceiptXmlType from '../Models/ReceiptXmlType';
 
 export async function readDirectory(directory: string): Promise<string[]> {
   return new Promise((resolve, reject) => {

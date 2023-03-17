@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { toRefs } from 'vue';
-import { useSettingsStore } from './Store/SettingsStore';
+import { useSettingsStore } from '../Store/SettingsStore';
 
 export default {
   setup() {

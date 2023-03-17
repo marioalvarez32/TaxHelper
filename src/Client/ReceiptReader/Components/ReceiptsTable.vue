@@ -52,7 +52,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
-import ReceiptType from '../../models/ReceiptType';
+import ReceiptType from '../Models/ReceiptType';
 import { PropType } from 'vue';
 import ReceiptsGrouped from '../Models/ReceiptsGrouped';
 
