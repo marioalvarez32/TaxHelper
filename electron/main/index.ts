@@ -1,6 +1,7 @@
 import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
 import { release } from 'node:os';
 import { join } from 'node:path';
+import Store from 'electron-store';
 
 // The built directory structure
 //
@@ -33,15 +34,26 @@ if (!app.requestSingleInstanceLock()) {
 // process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
 let win: BrowserWindow | null = null;
+
+const store = new Store();
+
 // Here, you can also use other preload
 const preload = join(__dirname, '../preload/index.js');
 const url = process.env.VITE_DEV_SERVER_URL;
 const indexHtml = join(process.env.DIST, 'index.html');
 
 async function createWindow() {
+  // Retrieve window position and size from electron-store
+  const { x, y, width, height, maximized } = store.get('windowState', { x: 0, y: 0, width: 800, height: 600, maximized: true });
+
   win = new BrowserWindow({
     title: 'Main window',
     icon: join(process.env.PUBLIC, 'favicon.ico'),
+    x,
+    y,
+    width,
+    height,
+    show: false,
     webPreferences: {
       preload,
       // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
@@ -71,9 +83,35 @@ async function createWindow() {
     if (url.startsWith('https:')) shell.openExternal(url);
     return { action: 'deny' };
   });
+
+  // Save window position and size when the window is moved or resized
+  win.on('move', saveWindowState);
+  win.on('resize', saveWindowState);
+  win.on('maximize', saveWindowState);
+  // Emitted when the window is closed.
+  win.on('closed', function () {
+    // Dereference the window object, usually you would store windows
+    // in an array if your app supports multi windows, this is the time
+    // when you should delete the corresponding element.
+    win = null;
+  });
 }
 
-app.whenReady().then(createWindow);
+function saveWindowState() {
+  // Save window position, size, and minimized state to electron-store
+  store.set('windowState', { ...win.getBounds(), maximized: win.isMaximized() });
+}
+
+app.whenReady().then(() => {
+  const { maximized } = store.get('windowState');
+
+  createWindow();
+  // Set minimized state if the window was minimized when it was last closed
+  if (maximized) {
+    win.maximize();
+  }
+  win.show();
+});
 
 app.on('window-all-closed', () => {
   win = null;

@@ -48,6 +48,7 @@
     "vue-tsc": "^1.0.24"
   },
   "dependencies": {
+    "electron-store": "^8.1.0",
     "exceljs": "^4.3.0",
     "pinia": "^2.0.30",
     "vue-router": "^4.1.6",
