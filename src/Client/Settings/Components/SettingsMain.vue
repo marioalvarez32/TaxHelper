@@ -7,8 +7,8 @@
             <h2>{{ Label }} settings</h2>
             <p>{{ Description }}</p>
           </div>
-          <div class="settings-content__header-search">
-            <v-text-field clearable label="Search" hide-details density="compact" variant="outlined" single-line append-inner-icon="mdi-magnify"></v-text-field>
+          <div class="settings-content__header-search-wrapper">
+            <v-text-field class="settings-content__header-search" clearable label="Search" hide-details density="compact" variant="outlined" single-line append-inner-icon="mdi-magnify"></v-text-field>
           </div>
         </div>
       </div>
@@ -56,12 +56,17 @@ export default {
   display: flex;
   flex-basis: 100%;
   justify-content: space-between;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.settings-content__header-search-wrapper {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
 }
 
 .settings-content__header-search {
-  min-width: 300px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  min-width: 250px;
 }
 </style>
