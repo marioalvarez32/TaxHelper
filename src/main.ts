@@ -1,5 +1,4 @@
 import './style.css';
-import './samples/node-api';
 
 import { router } from './router';
 import { createApp } from 'vue';
