@@ -4,7 +4,7 @@
       <template #settings>
         <SettingItem settingType="predefined-color-selection" title="Application Theme" description="Select a dark or light theme">
           <template #action>
-            <v-switch value="true" label="Theme" inset color="primary" true-value="yes" false-value="no" hide-details></v-switch>
+            <v-switch v-model="currentTheme" :label="`Theme: ${currentTheme}`" inset color="primary" true-value="Light" false-value="Dark" hide-details />
           </template>
         </SettingItem>
       </template>
@@ -13,11 +13,12 @@
 </template>
 
 <script lang="ts">
-import { toRefs } from 'vue';
+import { toRefs, ref, computed } from 'vue';
 import SettingsItemGroup from './SettingsItemGroup.vue';
 import SettingItem from './SettingItem.vue';
 import SettingsGroup from '../Models/SettingsGroup';
 import { useSettingsStore } from '../Store/SettingsStore';
+import { useTheme } from 'vuetify';
 
 export default {
   components: {
@@ -27,8 +28,20 @@ export default {
   setup() {
     const settingsStore = useSettingsStore();
     const { userSettings, selectedSettingGroup, getSelectedSettingGroup: settings, getSelectedSettingPageComponent } = toRefs(settingsStore);
+    const theme = useTheme();
+
+    const currentTheme = computed({
+      get: () => {
+        return theme.global.name.value.charAt(0).toUpperCase() + theme.global.name.value.slice(1);
+      },
+      set: (value) => {
+        theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark';
+      },
+    });
+
     return {
       settings,
+      currentTheme,
     };
   },
 };

@@ -5,7 +5,7 @@ import * as directives from 'vuetify/directives';
 import { aliases, mdi } from 'vuetify/iconsets/mdi';
 import '@mdi/font/css/materialdesignicons.css'; // Ensure you are using css-loader
 
-const myCustomDarkTheme: ThemeDefinition = {
+const dark: ThemeDefinition = {
   dark: true,
   colors: {
     primary: '#2196f3',
@@ -37,9 +37,9 @@ const vuetify = createVuetify({
     },
   },
   theme: {
-    defaultTheme: 'myCustomDarkTheme',
+    defaultTheme: 'dark',
     themes: {
-      myCustomDarkTheme,
+      dark,
     },
   },
 });
