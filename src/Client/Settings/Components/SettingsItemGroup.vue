@@ -38,6 +38,7 @@ export default {
   display: flex;
   gap: 30px;
   margin: 25px 0;
+  flex-direction: column;
 }
 
 .setting-item-group__description {
