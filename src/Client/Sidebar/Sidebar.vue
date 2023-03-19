@@ -37,12 +37,8 @@ export default {
       },
     ];
     const settingNav = { Text: 'Settings', Path: '/settings', Icon: 'mdi-cog' };
+    const { toggleSettings } = useSettingsModal();
 
-    function toggleSettings() {
-      const { isSettingsOpen } = useSettingsModal();
-      console.log('AM I HERE?', isSettingsOpen.value);
-      isSettingsOpen.value = !isSettingsOpen.value;
-    }
     return {
       selectedItem: 1,
       navigationItems,
