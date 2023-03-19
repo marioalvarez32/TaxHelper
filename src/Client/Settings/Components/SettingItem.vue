@@ -1,8 +1,6 @@
 <template>
   <div class="setting-item">
-    <div class="setting-item__input">
-      <v-switch value="true" label="Theme" inset color="primary" true-value="yes" false-value="no" hide-details></v-switch>
-    </div>
+    <slot class="setting-item__action-container" name="action" />
     <div class="setting-item__description">
       <p class="setting-item__description-title">{{ title }}</p>
       <p>{{ description }}</p>

@@ -2,7 +2,11 @@
   <div class="general-settings">
     <SettingsItemGroup title="Theme" description="Personalize your experience by selecting a different color or selecting a dark or light theme.">
       <template #settings>
-        <SettingItem settingType="predefined-color-selection" title="Application Theme" description="Select a dark or light theme" />
+        <SettingItem settingType="predefined-color-selection" title="Application Theme" description="Select a dark or light theme">
+          <template #action>
+            <v-switch value="true" label="Theme" inset color="primary" true-value="yes" false-value="no" hide-details></v-switch>
+          </template>
+        </SettingItem>
       </template>
     </SettingsItemGroup>
   </div>
