@@ -277,8 +277,6 @@ export default defineComponent({
   :deep(.receipt-reader__table-container .v-table) {
     height: 100%;
     width: 100%;
-    border: 1px solid;
-    border-color: rgba(var(--v-theme-borderColor), var(--v-border-opacity));
     flex-basis: 90%;
     overflow: auto;
   }
