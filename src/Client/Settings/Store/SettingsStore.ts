@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import AppSettings from '../Models/AppSettings';
 import SettingsGroup from '../Models/SettingsGroup';
-import GeneralSettings from '../Components/GeneralSettings.vue';
+import InterfaceSettings from '../Components/InterfaceSettings.vue';
 import { Component } from 'vue';
 
 interface SettingsStore {
@@ -41,6 +41,29 @@ export const useSettingsStore = defineStore('Settings', {
           },
         ],
       },
+      LanguageRegion: {
+        Name: 'language-region-settings',
+        Icon: 'mdi-application-settings-outline',
+        FriendlyName: 'Language & Region',
+        Label: 'Language & Region',
+        Description: 'All settings pertaining to the User Interface.',
+        SettingsItemGroups: [
+          {
+            Name: 'language',
+            Label: 'Application Language',
+            Description: 'Change the language for the user interface',
+            SettingItems: [
+              {
+                Name: 'language',
+                Label: 'Language',
+                Description: 'Stuff',
+                DefaultValue: 'EN',
+                Value: 'EN',
+              },
+            ],
+          },
+        ],
+      },
     },
     selectedSettingGroup: 'interface-settings',
   }),
@@ -56,7 +79,7 @@ export const useSettingsStore = defineStore('Settings', {
       switch (state.selectedSettingGroup) {
         case state.userSettings.Interface.Name:
         default:
-          return GeneralSettings;
+          return InterfaceSettings;
       }
     },
   },

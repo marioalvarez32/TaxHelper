@@ -5,7 +5,6 @@
         <SettingItem settingType="predefined-color-selection" title="Application Theme" description="Select a dark or light theme" />
       </template>
     </SettingsItemGroup>
-    <v-divider></v-divider>
   </div>
 </template>
 
