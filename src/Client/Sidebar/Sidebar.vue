@@ -7,16 +7,14 @@
             <template v-slot:prepend>
               <v-icon size="30" :icon="menuItem.Icon"></v-icon>
             </template>
-
             <v-list-item-title v-text="menuItem.Text"></v-list-item-title>
           </v-list-item>
         </template>
         <div class="sidebar__setting-icon-wrapper">
-          <v-list-item link active-color="primary">
+          <v-list-item link active-color="primary" @click="toggleSettings">
             <template v-slot:prepend>
               <v-icon size="30" :icon="settingNav.Icon"></v-icon>
             </template>
-
             <v-list-item-title v-text="settingNav.Text"></v-list-item-title>
           </v-list-item>
         </div>
@@ -26,6 +24,8 @@
 </template>
 
 <script lang="ts">
+import useSettingsModal from '../Settings/Composables/useSettingsModal';
+
 export default {
   setup() {
     const navigationItems = [
@@ -37,10 +37,17 @@ export default {
       },
     ];
     const settingNav = { Text: 'Settings', Path: '/settings', Icon: 'mdi-cog' };
+
+    function toggleSettings() {
+      const { isSettingsOpen } = useSettingsModal();
+      console.log('AM I HERE?', isSettingsOpen.value);
+      isSettingsOpen.value = !isSettingsOpen.value;
+    }
     return {
       selectedItem: 1,
       navigationItems,
       settingNav,
+      toggleSettings,
     };
   },
 };
