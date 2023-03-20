@@ -2,6 +2,10 @@ import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
 import { release } from 'node:os';
 import { join } from 'node:path';
 import Store from 'electron-store';
+const isDev = require('electron-is-dev');
+
+const installExtension = require('electron-devtools-installer').default;
+const { VUEJS3_DEVTOOLS } = require('electron-devtools-installer');
 
 // The built directory structure
 //
@@ -102,7 +106,16 @@ function saveWindowState() {
   store.set('windowState', { ...win.getBounds(), maximized: win.isMaximized() });
 }
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
+  if (isDev) {
+    try {
+      await installExtension(VUEJS3_DEVTOOLS);
+      console.log('Vue.js devtools extension installed');
+    } catch (e) {
+      console.log('Failed to install Vue.js devtools extension:', e);
+    }
+  }
+
   const { maximized } = store.get('windowState');
 
   createWindow();
