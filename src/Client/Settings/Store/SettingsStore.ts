@@ -87,10 +87,10 @@ export const useSettingsStore = defineStore('Settings', {
     ],
     settingItems: [
       {
-        Name: 'language',
-        Label: 'Language',
-        Description: 'Stuff',
-        DefaultValue: 'EN',
+        Name: 'theme',
+        Label: 'Interface Theme',
+        Description: 'Select a light or dark theme for the application',
+        DefaultValue: 'dark',
         SettingGroupName: 'interface-theme',
       },
     ],
