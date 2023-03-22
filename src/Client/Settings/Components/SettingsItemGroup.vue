@@ -5,18 +5,22 @@
       <p>{{ description }}</p>
     </div>
     <div class="setting-item-group__items-container">
-      <slot name="settings"></slot>
+      <SettingItem v-for="settingItem in settingItems" :key="settingItem.Name" :setting-item="settingItem">
+        <slot class="setting-item__action-container" :name="`setting-item-action--${settingItem.Name}`" />
+      </SettingItem>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { toRefs } from 'vue';
-import { useSettingsStore } from '../Store/SettingsStore';
-import SettingsGroup from '../Models/SettingsGroup';
-import SettingsItemGroups from '../Models/SettingsItemGroups';
+import SettingItemModel from '../Models/SettingItem';
+import { PropType } from 'vue';
+import SettingItem from './SettingItem.vue';
 
 export default {
+  components: {
+    SettingItem,
+  },
   props: {
     title: {
       type: String,
@@ -25,6 +29,10 @@ export default {
     description: {
       type: String,
       required: true,
+    },
+    settingItems: {
+      type: Array as PropType<SettingItemModel[]>,
+      default: [],
     },
   },
   setup() {

@@ -2,8 +2,6 @@ export default class SettingItem {
   Name: string;
   Label: string;
   Description: string;
-  Value: string | number | boolean;
-  DefaultValue: string | number | boolean;
-
-  constructor(parameters) {}
+  DefaultValue: any; // TODO: Need to type this a bit.
+  SettingGroupName: string;
 }

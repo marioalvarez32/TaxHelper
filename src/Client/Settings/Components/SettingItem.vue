@@ -1,31 +1,23 @@
 <template>
   <div class="setting-item">
-    <slot class="setting-item__action-container" name="action" />
+    <slot class="setting-item__action-container"></slot>
     <div class="setting-item__description">
-      <p class="setting-item__description-title">{{ title }}</p>
-      <p>{{ description }}</p>
+      <p class="setting-item__description-title">{{ settingItem.Label }}</p>
+      <p>{{ settingItem.Description }}</p>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import { PropType } from 'vue';
+import SettingItem from '../Models/SettingItem';
+
 export default {
   props: {
-    title: {
-      type: String,
+    settingItem: {
+      type: Object as PropType<SettingItem>,
       required: true,
     },
-    description: {
-      type: String,
-      required: true,
-    },
-    settingType: {
-      type: String,
-      required: false,
-    },
-  },
-  setup() {
-    return {};
   },
 };
 </script>
@@ -44,6 +36,7 @@ export default {
     font-size: 0.85rem;
     font-weight: 600;
   }
+
   p {
     font-size: 0.8rem;
   }
