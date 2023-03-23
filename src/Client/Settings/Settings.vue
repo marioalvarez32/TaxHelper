@@ -1,5 +1,5 @@
 <template>
-  <v-dialog class="settings" v-model="isSettingsOpen" width="800" height="600" persistent>
+  <v-dialog class="settings" v-model="isSettingsOpen" width="800" height="500">
     <div class="settings__container">
       <v-layout full-height>
         <SettingsSidebar />
@@ -42,6 +42,7 @@ export default {
 
 .settings__container {
   background-color: rgb(var(--v-theme-surface));
+  height: 100%;
 }
 
 .settings__close-btn {
