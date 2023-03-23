@@ -2,7 +2,7 @@
   <div class="general-settings">
     <SettingsItemGroup v-for="group in settingGroups" :key="group.Name" :title="group.Label" :description="group.Description" :setting-items="getSettingItemsByGroup(group.Name)">
       <template #setting-item-action--theme>
-        <v-switch v-model="currentTheme" :label="`Theme: ${currentTheme}`" inset color="primary" true-value="Light" false-value="Dark" hide-details />
+        <v-switch v-model="currentTheme" :label="`Theme: ${currentTheme}`" inset true-value="Light" false-value="Dark" hide-details />
       </template>
     </SettingsItemGroup>
   </div>
@@ -12,7 +12,6 @@
 import { toRefs, ref, computed } from 'vue';
 import SettingsItemGroup from './SettingsItemGroup.vue';
 import SettingItem from './SettingItem.vue';
-import SettingsGroup from '../Models/SettingGroup';
 import { useSettingsStore } from '../Store/SettingsStore';
 import { useTheme } from 'vuetify';
 
@@ -23,7 +22,7 @@ export default {
   },
   setup() {
     const settingsStore = useSettingsStore();
-    const { userSettings, getSettingGroupsBySelectedPage: settingGroups, getSelectedSettingPage, getSettingItemsByGroup } = toRefs(settingsStore);
+    const { getSettingGroupsBySelectedPage: settingGroups, getSelectedSettingPage, getSettingItemsByGroup } = toRefs(settingsStore);
     const theme = useTheme();
 
     const currentTheme = computed({
