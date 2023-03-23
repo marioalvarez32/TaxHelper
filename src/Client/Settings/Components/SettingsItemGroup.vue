@@ -1,5 +1,5 @@
 <template>
-  <div class="setting-item-group">
+  <div v-if="settingItems.length > 0" class="setting-item-group">
     <div class="setting-item-group__description">
       <p class="setting-item-group__description-title">{{ title }}</p>
       <p class="v-label">{{ description }}</p>

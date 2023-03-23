@@ -10,6 +10,7 @@ interface SettingsStore {
   settingPages: SettingsPage[];
   settingGroups: SettingGroup[];
   settingItems: SettingItem[];
+  searchTerm: string;
 }
 
 export const useSettingsStore = defineStore('Settings', {
@@ -39,6 +40,7 @@ export const useSettingsStore = defineStore('Settings', {
         SettingGroupName: 'interface-theme',
       },
     ],
+    searchTerm: '',
     selectedSettingPage: SettingPageType.Interface,
   }),
   getters: {
@@ -49,7 +51,11 @@ export const useSettingsStore = defineStore('Settings', {
       return state.settingGroups.filter((group) => group.SettingPage == state.selectedSettingPage);
     },
     getSettingItemsByGroup: (state) => (groupName) => {
-      return state.settingItems.filter((item) => item.SettingGroupName === groupName);
+      const items = state.settingItems.filter((item) => item.SettingGroupName === groupName);
+      if (state.searchTerm == '' || state.searchTerm == null) return items;
+      return items.filter((item) => {
+        return item.Description.toLowerCase().includes(state.searchTerm.toLowerCase()) || item.Label.toLowerCase().includes(state.searchTerm.toLowerCase());
+      });
     },
   },
   actions: {},
