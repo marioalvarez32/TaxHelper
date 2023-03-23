@@ -3,7 +3,7 @@
     <slot class="setting-item__action-container"></slot>
     <div class="setting-item__description">
       <p class="setting-item__description-title">{{ settingItem.Label }}</p>
-      <p>{{ settingItem.Description }}</p>
+      <p class="v-label">{{ settingItem.Description }}</p>
     </div>
   </div>
 </template>

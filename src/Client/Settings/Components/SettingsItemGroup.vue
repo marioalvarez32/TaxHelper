@@ -2,7 +2,7 @@
   <div class="setting-item-group">
     <div class="setting-item-group__description">
       <p class="setting-item-group__description-title">{{ title }}</p>
-      <p>{{ description }}</p>
+      <p class="v-label">{{ description }}</p>
     </div>
     <div class="setting-item-group__items-container">
       <SettingItem v-for="settingItem in settingItems" :key="settingItem.Name" :setting-item="settingItem">

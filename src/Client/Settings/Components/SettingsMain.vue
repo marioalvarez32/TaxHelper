@@ -5,10 +5,10 @@
         <div class="settings-content__header-container">
           <div>
             <h2>{{ settingPage.Label }} settings</h2>
-            <p>{{ settingPage.Description }}</p>
+            <p class="v-label">{{ settingPage.Description }}</p>
           </div>
           <div class="settings-content__header-search-wrapper">
-            <v-text-field class="settings-content__header-search" clearable label="Search" hide-details density="compact" variant="outlined" single-line append-inner-icon="mdi-magnify"></v-text-field>
+            <v-text-field v-model="searchTerm" class="settings-content__header-search" clearable label="Search" hide-details density="compact" variant="outlined" single-line append-inner-icon="mdi-magnify"></v-text-field>
           </div>
         </div>
       </div>
@@ -26,11 +26,11 @@ import { getSettingPageComponent } from '../Enums/SettingPageType';
 export default {
   setup() {
     const settingsStore = useSettingsStore();
-    const { userSettings, getSelectedSettingPage: settingPage } = toRefs(settingsStore);
+    const { getSelectedSettingPage: settingPage, searchTerm } = toRefs(settingsStore);
 
     return {
-      userSettings,
       settingPage,
+      searchTerm,
       settingPageComponent: getSettingPageComponent(settingPage.value.Name),
     };
   },
