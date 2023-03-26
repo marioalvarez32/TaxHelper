@@ -33,7 +33,6 @@ export default {
       if (!searchTerm || !text.toLowerCase().includes(searchTerm)) return text;
       const startIndex = text.toLowerCase().indexOf(searchTerm.toLowerCase());
       const endIndex = startIndex + searchTerm.length;
-
       return text.substring(0, startIndex) + '<mark>' + text.substring(startIndex, endIndex) + '</mark>' + text.substring(endIndex);
     }
 
@@ -53,7 +52,7 @@ export default {
 }
 
 .setting-item__description {
-  flex-basis: 35%;
+  width: 60%;
 
   .setting-item__description-title {
     font-size: 0.85rem;
@@ -62,6 +61,7 @@ export default {
 
   p {
     font-size: 0.8rem;
+    display: inline-block;
   }
 }
 
@@ -69,11 +69,15 @@ export default {
   flex-basis: 65%;
 }
 
+.setting-item div:first-child {
+  max-width: 40%;
+}
+
 .setting-item__action-container p {
   display: flex;
 }
 
 :deep(.v-label) {
-  white-space: pre;
+  white-space: pre-wrap;
 }
 </style>
