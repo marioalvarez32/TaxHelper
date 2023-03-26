@@ -4,5 +4,10 @@
       "morning": "Good morning!",
       "afternoon": "Good afternoon!",
       "evening": "Good evening!"
+    },
+    "settings": {
+      "labels": {
+        "app_language": "Application Language"
+      }
     }
   }

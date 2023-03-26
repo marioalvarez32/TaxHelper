@@ -3,6 +3,7 @@ import SettingsPage from '../Models/SettingsPage';
 import SettingGroup from '../Models/SettingGroup';
 import SettingItem from '../Models/SettingItem';
 import { SettingPageType } from '../Enums/SettingPageType';
+import { useTranslation } from 'i18next-vue';
 
 interface SettingsStore {
   selectedSettingPage: string;
@@ -11,7 +12,6 @@ interface SettingsStore {
   settingItems: SettingItem[];
   searchTerm: string;
 }
-
 export const useSettingsStore = defineStore('Settings', {
   state: (): SettingsStore => ({
     settingPages: [
