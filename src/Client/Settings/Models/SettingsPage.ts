@@ -1,3 +1,4 @@
+import { Component } from 'vue';
 import { SettingPageType } from '../Enums/SettingPageType';
 
 export default class SettingsPage {
@@ -5,4 +6,5 @@ export default class SettingsPage {
   Label: string;
   Icon: string;
   Description: string;
+  Component: Component;
 }
