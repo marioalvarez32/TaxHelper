@@ -1,10 +1,8 @@
 import { defineStore } from 'pinia';
-import AppSettings from '../Models/AppSettings';
 import SettingsPage from '../Models/SettingsPage';
 import SettingGroup from '../Models/SettingGroup';
 import SettingItem from '../Models/SettingItem';
 import { SettingPageType } from '../Enums/SettingPageType';
-import { shallowRef } from 'vue';
 
 interface SettingsStore {
   selectedSettingPage: string;
@@ -26,7 +24,7 @@ export const useSettingsStore = defineStore('Settings', {
       {
         Name: SettingPageType.LanguageAndRegion,
         Label: 'Language & Region',
-        Icon: 'mdi-application-settings-outline',
+        Icon: 'mdi-translate',
         Description: 'All settings pertaining to the User Interface.',
       },
     ],
