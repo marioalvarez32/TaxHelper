@@ -13,7 +13,10 @@
         </div>
       </div>
       <v-divider></v-divider>
-      <component :is="settingPageComponent"></component>
+      <component v-if="!isLoadingComponent" :is="settingPageComponent"></component>
+      <v-overlay v-else persistent :model-value="isLoadingComponent" contained>
+        <v-progress-circular :size="75" color="primary" indeterminate></v-progress-circular>
+      </v-overlay>
     </div>
   </v-main>
 </template>
@@ -21,17 +24,20 @@
 <script lang="ts">
 import { toRefs } from 'vue';
 import { useSettingsStore } from '../Store/SettingsStore';
-import { getSettingPageComponent } from '../Enums/SettingPageType';
+import { computed } from '@vue/reactivity';
+import { ref } from 'vue';
 
 export default {
   setup() {
     const settingsStore = useSettingsStore();
     const { getSelectedSettingPage: settingPage, searchTerm } = toRefs(settingsStore);
+    const isLoadingComponent = ref(false);
 
     return {
       settingPage,
       searchTerm,
-      settingPageComponent: getSettingPageComponent(settingPage.value.Name),
+      settingPageComponent: settingPage.value.Component,
+      isLoadingComponent,
     };
   },
 };
