@@ -54,7 +54,7 @@ export const useSettingsStore = defineStore('Settings', {
       },
       {
         Name: 'language',
-        Label: 'Application Language',
+        Label: 'Prefered Language',
         Description: `Change the language of the app to view the app's content in your preferred language.`,
         DefaultValue: 'en',
         SettingGroupName: 'language',
