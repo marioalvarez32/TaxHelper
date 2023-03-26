@@ -5,8 +5,6 @@ const path = require('path');
 import ReceiptType from '../Models/ReceiptType';
 
 export function exportReceiptDataToExcel(data: ReceiptType[], filePath: string): Promise<void> {
-  console.log('🚀 ~ file: ReceiptReaderService.ts:6 ~ exportReceiptDataToExcel ~ data:', data);
-
   const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet('Sheet1');
 

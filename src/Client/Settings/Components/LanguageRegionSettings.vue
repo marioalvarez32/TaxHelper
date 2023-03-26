@@ -30,7 +30,6 @@ export default {
 
     const currentLanguage = computed({
       get: () => {
-        console.log('🚀 ~ file: LanguageRegionSettings.vue:38 ~ setup ~ i18next.language:', i18next.language);
         return i18next.language;
       },
       set: (value) => {
