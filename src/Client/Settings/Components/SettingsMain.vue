@@ -4,8 +4,8 @@
       <div class="settings-content__header">
         <div class="settings-content__header-container">
           <div>
-            <h2>{{ settingPage.Label }} settings</h2>
-            <p class="v-label">{{ settingPage.Description }}</p>
+            <h2>{{ selectedSettingPage.Label }} settings</h2>
+            <p class="v-label">{{ selectedSettingPage.Description }}</p>
           </div>
           <div class="settings-content__header-search-wrapper">
             <v-text-field v-model="searchTerm" class="settings-content__header-search" clearable label="Search" hide-details density="compact" variant="outlined" single-line append-inner-icon="mdi-magnify"></v-text-field>
@@ -13,8 +13,8 @@
         </div>
       </div>
       <v-divider></v-divider>
-      <component v-if="!isLoadingComponent" :is="settingPageComponent"></component>
-      <v-overlay v-else persistent :model-value="isLoadingComponent" contained>
+      <component v-if="settingPageComponent" :is="settingPageComponent"></component>
+      <v-overlay v-else persistent contained>
         <v-progress-circular :size="75" color="primary" indeterminate></v-progress-circular>
       </v-overlay>
     </div>
@@ -24,19 +24,34 @@
 <script lang="ts">
 import { toRefs } from 'vue';
 import { useSettingsStore } from '../Store/SettingsStore';
-import { computed } from '@vue/reactivity';
 import { ref } from 'vue';
+import { SettingPageType } from '../Enums/SettingPageType';
+import { defineAsyncComponent } from 'vue';
+import { computed } from 'vue';
 
 export default {
+  components: {},
   setup() {
     const settingsStore = useSettingsStore();
-    const { getSelectedSettingPage: settingPage, searchTerm } = toRefs(settingsStore);
+    const { getSelectedSettingPage: selectedSettingPage, searchTerm } = toRefs(settingsStore);
     const isLoadingComponent = ref(false);
 
+    const settingPageComponent = computed(() => {
+      /**
+       * Would have loved to do this in a different way but importing this in the same component avoids rendering issues.
+       */
+      switch (selectedSettingPage.value.Name) {
+        case SettingPageType.Interface:
+          return defineAsyncComponent(() => import('../Components/InterfaceSettings.vue'));
+        case SettingPageType.LanguageAndRegion:
+          return defineAsyncComponent(() => import('../Components/LanguageRegionSettings.vue'));
+      }
+    });
+
     return {
-      settingPage,
+      selectedSettingPage,
       searchTerm,
-      settingPageComponent: settingPage.value.Component,
+      settingPageComponent,
       isLoadingComponent,
     };
   },

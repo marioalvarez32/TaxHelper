@@ -4,7 +4,6 @@ import SettingsPage from '../Models/SettingsPage';
 import SettingGroup from '../Models/SettingGroup';
 import SettingItem from '../Models/SettingItem';
 import { SettingPageType } from '../Enums/SettingPageType';
-import InterfaceSettings from '../Components/InterfaceSettings.vue';
 import { shallowRef } from 'vue';
 
 interface SettingsStore {
@@ -23,14 +22,12 @@ export const useSettingsStore = defineStore('Settings', {
         Label: 'Interface',
         Icon: 'mdi-application-settings-outline',
         Description: 'All settings pertaining to the User Interface.',
-        Component: shallowRef(InterfaceSettings),
       },
       {
         Name: SettingPageType.LanguageAndRegion,
         Label: 'Language & Region',
         Icon: 'mdi-application-settings-outline',
         Description: 'All settings pertaining to the User Interface.',
-        Component: shallowRef(InterfaceSettings),
       },
     ],
     settingGroups: [

@@ -11,14 +11,12 @@
 <script lang="ts">
 import { toRefs, ref, computed } from 'vue';
 import SettingsItemGroup from './SettingsItemGroup.vue';
-import SettingItem from './SettingItem.vue';
 import { useSettingsStore } from '../Store/SettingsStore';
 import { useTheme } from 'vuetify';
 
 export default {
   components: {
     SettingsItemGroup,
-    SettingItem,
   },
   setup() {
     const settingsStore = useSettingsStore();
