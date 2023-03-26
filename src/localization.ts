@@ -1,18 +1,16 @@
-import { createI18n } from 'vue-i18n';
+import i18next from 'i18next';
+import en from './locales/en.json';
+import es from './locales/es.json';
 
-const localization = createI18n({
-  legacy: false,
-  locale: 'en',
-  messages: {
+i18next.init({
+  lng: 'en',
+  fallbackLng: 'en',
+  resources: {
     en: {
-      welcome: 'Welcome to my app!',
-      goodbye: 'Goodbye!',
+      translation: en,
     },
     es: {
-      welcome: 'Bienvenue dans mon application!',
-      goodbye: 'Au revoir!',
+      translation: es,
     },
   },
 });
-
-export { localization };
