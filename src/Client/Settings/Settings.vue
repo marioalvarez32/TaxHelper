@@ -33,11 +33,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.settings {
-  :deep(.v-overlay__scrim) {
-    background-color: rgb(var(--v-theme-background));
-    opacity: 50%;
-  }
+.v-theme--dark :deep(.v-overlay__scrim) {
+  background-color: rgb(var(--v-theme-background));
+  opacity: 50%;
 }
 
 .settings__container {
