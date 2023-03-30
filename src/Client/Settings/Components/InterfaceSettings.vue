@@ -13,6 +13,7 @@ import { toRefs, ref, computed } from 'vue';
 import SettingsItemGroup from './SettingsItemGroup.vue';
 import { useSettingsStore } from '../Store/SettingsStore';
 import { useTheme } from 'vuetify';
+import useSettings from '../Composables/useSettings';
 
 export default {
   components: {
@@ -22,13 +23,14 @@ export default {
     const settingsStore = useSettingsStore();
     const { getSettingGroupsBySelectedPage: settingGroups, getSelectedSettingPage, getSettingItemsByGroup } = toRefs(settingsStore);
     const theme = useTheme();
-
+    const { settings } = useSettings();
     const currentTheme = computed({
       get: () => {
-        return theme.global.name.value.charAt(0).toUpperCase() + theme.global.name.value.slice(1);
+        return settings.value.theme.charAt(0).toUpperCase() + settings.value.theme.slice(1);
       },
       set: (value) => {
-        theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark';
+        theme.global.name.value = value.toLowerCase();
+        settings.value.theme = value.toLowerCase();
       },
     });
 

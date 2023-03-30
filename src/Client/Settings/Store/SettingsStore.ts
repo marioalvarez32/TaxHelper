@@ -34,7 +34,6 @@ export const useSettingsStore = defineStore('Settings', {
         Name: 'theme',
         Label: 'Tema de Interfaz',
         Description: `Este ajuste te permite cambiar el tema de la aplicación, dándole una apariencia y sensación diferentes a la interfaz de la aplicación`,
-        DefaultValue: 'dark',
         SettingGroupName: 'interface-theme',
       },
     ],

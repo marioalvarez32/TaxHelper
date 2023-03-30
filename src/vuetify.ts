@@ -4,6 +4,8 @@ import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import { aliases, mdi } from 'vuetify/iconsets/mdi';
 import '@mdi/font/css/materialdesignicons.css'; // Ensure you are using css-loader
+import useSettings from './Client/Settings/Composables/useSettings';
+const { settings } = useSettings();
 
 const dark: ThemeDefinition = {
   dark: true,
@@ -53,7 +55,7 @@ const vuetify = createVuetify({
     },
   },
   theme: {
-    defaultTheme: 'dark',
+    defaultTheme: settings.value.theme,
     themes: {
       dark,
       light,
