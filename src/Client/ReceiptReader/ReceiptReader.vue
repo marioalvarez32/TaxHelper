@@ -7,9 +7,9 @@
             <v-overlay persistent :model-value="isLoading" contained>
               <v-progress-circular :size="75" color="primary" indeterminate></v-progress-circular>
             </v-overlay>
-            <h3>Load Directory</h3>
-            <v-btn color="primary" @click="openDirectoyDialog"> Select directory </v-btn>
-            <h4>Selected Directory:</h4>
+            <h3>Cargar archivos XML</h3>
+            <v-btn color="primary" @click="openDirectoyDialog" class="text-capitalize"> Seleccionar carpeta </v-btn>
+            <h4>Carpeta seleccionada:</h4>
             {{ selectedFileDirectory }}
           </div>
           <div class="receipt-reader__directory-data">
@@ -17,7 +17,7 @@
               <v-table density="compact" fixed-header>
                 <thead>
                   <tr>
-                    <th class="text-left">File name</th>
+                    <th class="text-left">Nombre del archivo</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -27,23 +27,23 @@
                 </tbody>
               </v-table>
             </div>
-            <v-btn :disabled="filesInDirectory.length <= 0 || isExportingData" color="primary" @click="readFiles"> Read XML receipts </v-btn>
+            <v-btn :disabled="filesInDirectory.length <= 0 || isExportingData" color="primary" @click="readFiles"> Cargar recibos </v-btn>
           </div>
         </div>
       </v-card>
       <v-card elevation="5" rounded="lg" class="receipt-reader__card receipt-reader__input-data">
         <div class="receipt-reader__data-container">
           <h3>
-            SubTotal <span>{{ formatToCurrency(receiptsSubTotal) }}</span>
+            Subtotal <span>{{ formatToCurrency(receiptsSubTotal) }}</span>
           </h3>
           <h3>
-            Total Tax Amount <span>{{ formatToCurrency(receiptsTaxTotal) }}</span>
+            Total de impuestos <span>{{ formatToCurrency(receiptsTaxTotal) }}</span>
           </h3>
           <h3>
             Total <span>{{ formatToCurrency(receiptsTotalAmount) }}</span>
           </h3>
           <h3>
-            Total receipts read: <span>{{ addedReceipts.length }}</span>
+            Recibos leídos: <span>{{ addedReceipts.length }}</span>
           </h3>
         </div>
       </v-card>
@@ -52,10 +52,10 @@
           <div class="table-header__left">
             <v-select v-model="selectedTableView" :items="tableViews" single-line item-title="label" item-value="view" label="Select" prepend-inner-icon="mdi-format-list-bulleted" density="compact" variant="solo" hide-details></v-select>
           </div>
-          <div v-if="ommittedFiles.length > 0">{{ ommittedFiles.length }} Ommited Files</div>
+          <div v-if="ommittedFiles.length > 0">{{ ommittedFiles.length }} Recibos omitidos</div>
           <div class="table-header__right">
             <fieldset class="receipt-reader__table-actions">
-              <v-btn :disabled="addedReceipts.length <= 0 || selectedTableView != 'default'" class="table__button" color="blue-grey" size="small" prepend-icon="mdi-export" @click="exportTableToExcel">Export</v-btn>
+              <v-btn :disabled="addedReceipts.length <= 0 || selectedTableView != 'default'" class="table__button" color="blue-grey" size="small" prepend-icon="mdi-export" @click="exportTableToExcel">Exportar</v-btn>
             </fieldset>
           </div>
         </div>
@@ -91,8 +91,8 @@ export default defineComponent({
     const ommittedFiles = ref<string[]>([]);
 
     const tableViews = [
-      { view: 'default', label: 'Default View' },
-      { view: 'grouped-by-issuer-RFC', label: 'Grouped By Issuer RFC' },
+      { view: 'default', label: 'Vista de recibos' },
+      { view: 'grouped-by-issuer-RFC', label: 'Agrupados por RFC del emisor' },
     ];
     const selectedTableView = ref('default');
     const isExportingData = ref(false);

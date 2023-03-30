@@ -6,12 +6,12 @@
     <v-table v-if="selectedTableView == 'default'" density="compact" fixed-header>
       <thead>
         <tr>
-          <th class="text-left">Issuer</th>
-          <th class="text-left">Issuer RFC</th>
-          <th class="text-left">Receiver</th>
-          <th class="text-left">Sub Total</th>
+          <th class="text-left">Emisor</th>
+          <th class="text-left">RFC Emisor</th>
+          <th class="text-left">Receptor</th>
+          <th class="text-left">Subtotal</th>
           <th class="text-left">Total</th>
-          <th class="text-left">Tax Amount</th>
+          <th class="text-left">Impuestos</th>
         </tr>
       </thead>
       <tbody>
@@ -28,12 +28,12 @@
     <v-table v-if="selectedTableView == 'grouped-by-issuer-RFC'" density="compact" fixed-header>
       <thead>
         <tr>
-          <th class="text-left">Issuer</th>
-          <th class="text-left">Issuer RFC</th>
-          <th class="text-left"># of Receipts</th>
-          <th class="text-left">Sub Total</th>
+          <th class="text-left">Emisor</th>
+          <th class="text-left">RFC Emisor</th>
+          <th class="text-left">Nº de Recibos</th>
+          <th class="text-left">Subtotal</th>
           <th class="text-left">Total</th>
-          <th class="text-left">Tax Amount</th>
+          <th class="text-left">Impuestos</th>
         </tr>
       </thead>
       <tbody>
