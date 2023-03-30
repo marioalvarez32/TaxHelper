@@ -47,22 +47,22 @@
           </h3>
         </div>
       </v-card>
-      <div class="table-container">
-        <div class="table-header">
-          <div class="table-header__left">
-            <v-select v-model="selectedTableView" :items="tableViews" single-line item-title="label" item-value="view" label="Select" prepend-inner-icon="mdi-format-list-bulleted" density="compact" variant="solo" hide-details></v-select>
-          </div>
-          <div v-if="ommittedFiles.length > 0">{{ ommittedFiles.length }} Recibos omitidos</div>
-          <div class="table-header__right">
-            <fieldset class="receipt-reader__table-actions">
-              <v-btn :disabled="addedReceipts.length <= 0 || selectedTableView != 'default'" class="table__button" color="blue-grey" size="small" prepend-icon="mdi-export" @click="exportTableToExcel">Exportar</v-btn>
-            </fieldset>
-          </div>
+      <div class="table-header">
+        <div class="table-header__left">
+          <v-select v-model="selectedTableView" :items="tableViews" single-line item-title="label" item-value="view" label="Select" prepend-inner-icon="mdi-format-list-bulleted" density="compact" variant="solo" hide-details></v-select>
         </div>
-        <v-card elevation="5" rounded="lg" class="receipt-reader__card receipt-reader__table">
-          <ReceiptsTable :added-receipts="addedReceipts" :isExportingData="isExportingData" :selected-table-view="selectedTableView" />
-        </v-card>
+        <div v-if="ommittedFiles.length > 0">{{ ommittedFiles.length }} Recibos omitidos</div>
+        <div class="table-header__right">
+          <fieldset class="receipt-reader__table-actions">
+            <v-btn :disabled="addedReceipts.length <= 0 || selectedTableView != 'default'" class="table__button" color="blue-grey" size="small" prepend-icon="mdi-export" @click="exportTableToExcel">Exportar</v-btn>
+          </fieldset>
+        </div>
       </div>
+      <v-card elevation="5" class="table-container">
+        <div rounded="lg" class="receipt-reader__card receipt-reader__table">
+          <ReceiptsTable :added-receipts="addedReceipts" :isExportingData="isExportingData" :selected-table-view="selectedTableView" />
+        </div>
+      </v-card>
     </div>
   </div>
 </template>
@@ -249,8 +249,16 @@ export default defineComponent({
   grid-column: 9 / span 4;
 }
 
+.table-header {
+  grid-row: 6 / span 1;
+  grid-column: 1 / span 12;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+
 .table-container {
-  grid-row: 6 / span 8;
+  grid-row: 7 / span 8;
   grid-column: 1 / span 12;
   height: 100%;
   overflow: hidden;
@@ -277,7 +285,6 @@ export default defineComponent({
   :deep(.receipt-reader__table-container .v-table) {
     height: 100%;
     width: 100%;
-    flex-basis: 90%;
     overflow: auto;
   }
   :deep(.receipt-reader__table-container .v-table .v-table__wrapper) {
