@@ -29,14 +29,14 @@ import useSettingsModal from '../Settings/Composables/useSettingsModal';
 export default {
   setup() {
     const navigationItems = [
-      { Text: 'Dashboard', Path: '/', Icon: 'mdi-home' },
+      { Text: 'Inicio', Path: '/', Icon: 'mdi-home' },
       {
-        Text: 'Receipt Reader',
+        Text: 'Lector de RFC',
         Path: '/tools/receipt-reader',
         Icon: 'mdi-file-multiple',
       },
     ];
-    const settingNav = { Text: 'Settings', Path: '/settings', Icon: 'mdi-cog' };
+    const settingNav = { Text: 'Configuración', Path: '/settings', Icon: 'mdi-cog' };
     const { toggleSettings } = useSettingsModal();
 
     return {

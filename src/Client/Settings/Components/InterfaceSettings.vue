@@ -2,7 +2,7 @@
   <div class="general-settings">
     <SettingsItemGroup v-for="group in settingGroups" :key="group.Name" :title="group.Label" :description="group.Description" :setting-items="getSettingItemsByGroup(group.Name)">
       <template #setting-item-action--theme>
-        <v-switch v-model="currentTheme" :label="`Theme: ${currentTheme}`" inset true-value="Light" false-value="Dark" hide-details />
+        <v-switch v-model="currentTheme" :label="`Modo: ${themeLabel}`" inset true-value="Light" false-value="Dark" hide-details />
       </template>
     </SettingsItemGroup>
   </div>
@@ -32,11 +32,14 @@ export default {
       },
     });
 
+    const themeLabel = computed(() => (currentTheme.value.toLowerCase() == 'dark' ? 'Oscuro' : 'Claro'));
+
     return {
       settingPage: getSelectedSettingPage,
       currentTheme,
       settingGroups,
       getSettingItemsByGroup,
+      themeLabel,
     };
   },
 };

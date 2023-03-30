@@ -16,24 +16,24 @@ export const useSettingsStore = defineStore('Settings', {
     settingPages: [
       {
         Name: SettingPageType.Interface,
-        Label: 'Interface',
+        Label: 'Interfaz',
         Icon: 'mdi-application-settings-outline',
-        Description: 'All settings pertaining to the User Interface.',
+        Description: 'Todas las opciones de configuración de la Interfaz de usuario',
       },
     ],
     settingGroups: [
       {
         Name: 'interface-theme',
-        Label: 'Application Theme',
-        Description: 'Customize the theme for the user interface',
+        Label: 'Tema de la aplicación',
+        Description: 'Personaliza el tema de la interfaz de usuario',
         SettingPage: SettingPageType.Interface,
       },
     ],
     settingItems: [
       {
         Name: 'theme',
-        Label: 'Interface Theme',
-        Description: `This setting allows you to change the theme of the app, giving you a different look and feel to the app's interface`,
+        Label: 'Tema de Interfaz',
+        Description: `Este ajuste te permite cambiar el tema de la aplicación, dándole una apariencia y sensación diferentes a la interfaz de la aplicación`,
         DefaultValue: 'dark',
         SettingGroupName: 'interface-theme',
       },
