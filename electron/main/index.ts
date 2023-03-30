@@ -88,6 +88,8 @@ async function createWindow() {
     return { action: 'deny' };
   });
 
+  win.setMenu(null);
+
   // Save window position and size when the window is moved or resized
   win.on('move', saveWindowState);
   win.on('resize', saveWindowState);
