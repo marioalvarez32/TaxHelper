@@ -3,7 +3,6 @@ import SettingsPage from '../Models/SettingsPage';
 import SettingGroup from '../Models/SettingGroup';
 import SettingItem from '../Models/SettingItem';
 import { SettingPageType } from '../Enums/SettingPageType';
-import { useTranslation } from 'i18next-vue';
 
 interface SettingsStore {
   selectedSettingPage: string;
@@ -21,12 +20,6 @@ export const useSettingsStore = defineStore('Settings', {
         Icon: 'mdi-application-settings-outline',
         Description: 'All settings pertaining to the User Interface.',
       },
-      {
-        Name: SettingPageType.LanguageAndRegion,
-        Label: 'Language & Region',
-        Icon: 'mdi-translate',
-        Description: 'All settings pertaining to the User Interface.',
-      },
     ],
     settingGroups: [
       {
@@ -34,12 +27,6 @@ export const useSettingsStore = defineStore('Settings', {
         Label: 'Application Theme',
         Description: 'Customize the theme for the user interface',
         SettingPage: SettingPageType.Interface,
-      },
-      {
-        Name: 'language',
-        Label: 'Application Language',
-        Description: 'Change the language for the user interface',
-        SettingPage: SettingPageType.LanguageAndRegion,
       },
     ],
     settingItems: [
@@ -49,13 +36,6 @@ export const useSettingsStore = defineStore('Settings', {
         Description: `This setting allows you to change the theme of the app, giving you a different look and feel to the app's interface`,
         DefaultValue: 'dark',
         SettingGroupName: 'interface-theme',
-      },
-      {
-        Name: 'language',
-        Label: 'Prefered Language',
-        Description: `Change the language of the app to view the app's content in your preferred language.`,
-        DefaultValue: 'en',
-        SettingGroupName: 'language',
       },
     ],
     searchTerm: '',

@@ -43,8 +43,6 @@ export default {
       switch (selectedSettingPage.value.Name) {
         case SettingPageType.Interface:
           return defineAsyncComponent(() => import('../Components/InterfaceSettings.vue'));
-        case SettingPageType.LanguageAndRegion:
-          return defineAsyncComponent(() => import('../Components/LanguageRegionSettings.vue'));
       }
     });
 
