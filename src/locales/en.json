@@ -6,8 +6,17 @@
       "evening": "Good evening!"
     },
     "settings": {
-      "labels": {
+      "settingsNavigation": {
         "app_language": "Application Language"
+      },
+      "settingsPages": {
+        "app_language": "Application Language"
+      },
+      "settingsGroups": {
+
+      },
+      "settingsItems": {
+        
       }
     }
   }
