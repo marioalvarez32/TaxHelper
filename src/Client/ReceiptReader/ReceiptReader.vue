@@ -314,6 +314,6 @@ export default defineComponent({
   flex-grow: 1;
   width: 100%;
   border: 1px solid;
-  border-color: rgba(var(--v-theme-borderColor), var(--v-border-opacity));
+  border-color: rgba(var(--v-theme-on-background), var(--v-border-opacity));
 }
 </style>
