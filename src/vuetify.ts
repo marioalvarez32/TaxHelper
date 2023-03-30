@@ -26,6 +26,22 @@ const dark: ThemeDefinition = {
   },
 };
 
+const light: ThemeDefinition = {
+  colors: {
+    background: '#FFFFFF',
+    primary: '#6200EE',
+    secondary: '#03DAC6',
+    error: '#B00020',
+    surface: '#FFFFFF',
+    onPrimary: '#FFFFFF',
+    onSecondary: '#000000',
+    onError: '#FFFFFF',
+    onSurface: '#000000',
+    sidebarPrimary: '#3b3b3b',
+    sidebarBackground: '#FFFFFF',
+  },
+};
+
 const vuetify = createVuetify({
   components,
   directives,
@@ -40,6 +56,7 @@ const vuetify = createVuetify({
     defaultTheme: 'dark',
     themes: {
       dark,
+      light,
     },
   },
 });
