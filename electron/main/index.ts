@@ -48,7 +48,8 @@ const indexHtml = join(process.env.DIST, 'index.html');
 
 async function createWindow() {
   // Retrieve window position and size from electron-store
-  const { x, y, width, height, maximized } = store.get('windowState', { x: 0, y: 0, width: 800, height: 600, maximized: true });
+  const defaultWindowState: WindowState = { x: 0, y: 0, width: 800, height: 600, maximized: true };
+  const { x, y, width, height } = store.get('windowState', defaultWindowState) as WindowState;
 
   win = new BrowserWindow({
     title: 'Main window',
@@ -118,7 +119,7 @@ app.whenReady().then(async () => {
     }
   }
 
-  const { maximized } = store.get('windowState');
+  const { maximized } = store.get('windowState') as WindowState;
 
   createWindow();
   // Set minimized state if the window was minimized when it was last closed
@@ -189,3 +190,11 @@ ipcMain.handle('showSaveFileDialog', (e, message) => {
     });
   }
 });
+
+interface WindowState {
+  maximized: boolean;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
