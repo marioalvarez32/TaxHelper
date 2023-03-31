@@ -4,9 +4,6 @@ import { join } from 'node:path';
 import Store from 'electron-store';
 const isDev = require('electron-is-dev');
 
-const installExtension = require('electron-devtools-installer').default;
-const { VUEJS3_DEVTOOLS } = require('electron-devtools-installer');
-
 // The built directory structure
 //
 // ├─┬ dist-electron
@@ -112,6 +109,8 @@ function saveWindowState() {
 app.whenReady().then(async () => {
   if (isDev) {
     try {
+      const installExtension = require('electron-devtools-installer').default;
+      const { VUEJS3_DEVTOOLS } = require('electron-devtools-installer');
       await installExtension(VUEJS3_DEVTOOLS);
       console.log('Vue.js devtools extension installed');
     } catch (e) {
