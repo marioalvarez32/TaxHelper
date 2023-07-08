@@ -1,4 +1,5 @@
 import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
+const path = require('path');
 import { release } from 'node:os';
 import { join } from 'node:path';
 import Store from 'electron-store';
@@ -42,6 +43,40 @@ const store = new Store();
 const preload = join(__dirname, '../preload/index.js');
 const url = process.env.VITE_DEV_SERVER_URL;
 const indexHtml = join(process.env.DIST, 'index.html');
+
+async function gateCreateWindowWithLicense(createWindow) {
+  const gateWindow = new BrowserWindow({
+    resizable: false,
+
+    frame: false,
+
+    width: 420,
+
+    height: 200,
+
+    webPreferences: {
+      preload: path.join(__dirname, '../gate/gate.js'),
+      devTools: isDev,
+    },
+  });
+
+  gateWindow.loadFile('gate.html');
+
+  if (isDev) {
+    gateWindow.webContents.openDevTools({ mode: 'detach' });
+  }
+
+  // TODO(ezekg) Create main window for valid licenses
+  ipcMain.on('GATE_SUBMIT', async (_event, { key }) => {
+    // Close the license gate window
+    console.log('gate submitted', key);
+
+    // Launch our main window
+
+    await createWindow();
+    gateWindow.close();
+  });
+}
 
 async function createWindow() {
   // Retrieve window position and size from electron-store
@@ -106,7 +141,9 @@ function saveWindowState() {
   store.set('windowState', { ...win.getBounds(), maximized: win.isMaximized() });
 }
 
-app.whenReady().then(async () => {
+app.whenReady().then(() => gateCreateWindowWithLicense(initializeMainWindow));
+
+async function initializeMainWindow() {
   if (isDev) {
     try {
       const installExtension = require('electron-devtools-installer').default;
@@ -126,7 +163,7 @@ app.whenReady().then(async () => {
     win.maximize();
   }
   win.show();
-});
+}
 
 app.on('window-all-closed', () => {
   win = null;
