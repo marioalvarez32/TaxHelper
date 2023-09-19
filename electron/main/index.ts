@@ -3,6 +3,7 @@ const path = require('path');
 import { release } from 'node:os';
 import { join } from 'node:path';
 import Store from 'electron-store';
+import { validateLicenseKey } from '../gate/LicenseService';
 const isDev = require('electron-is-dev');
 
 // The built directory structure
@@ -68,13 +69,21 @@ async function gateCreateWindowWithLicense(createWindow) {
 
   // TODO(ezekg) Create main window for valid licenses
   ipcMain.on('GATE_SUBMIT', async (_event, { key }) => {
-    // Close the license gate window
-    console.log('gate submitted', key);
+    const code = await validateLicenseKey(key);
+
+    switch (code) {
+      case 'VALID':
+        // Create our main window
+        await createWindow();
+        gateWindow.close();
+        break;
+
+      default:
+        // Exit the application
+        break;
+    }
 
     // Launch our main window
-
-    await createWindow();
-    gateWindow.close();
   });
 }
 
@@ -141,7 +150,7 @@ function saveWindowState() {
   store.set('windowState', { ...win.getBounds(), maximized: win.isMaximized() });
 }
 
-app.whenReady().then(() => gateCreateWindowWithLicense(initializeMainWindow));
+app.whenReady().then(() => initializeMainWindow());
 
 async function initializeMainWindow() {
   if (isDev) {

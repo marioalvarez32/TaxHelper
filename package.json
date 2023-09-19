@@ -54,6 +54,7 @@
     "electron-is-dev": "^2.0.0",
     "electron-store": "^8.1.0",
     "exceljs": "^4.3.0",
+    "node-fetch": "^2.6.12",
     "pinia": "^2.0.30",
     "vue-router": "^4.1.6",
     "vuetify": "^3.1.4",
