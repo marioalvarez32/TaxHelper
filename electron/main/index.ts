@@ -108,22 +108,25 @@ function saveWindowState() {
 
 app.whenReady().then(async () => {
   if (isDev) {
-    try {
+    win?.webContents.once('dom-ready', async () => {
       const installExtension = require('electron-devtools-installer').default;
       const { VUEJS3_DEVTOOLS } = require('electron-devtools-installer');
-      await installExtension(VUEJS3_DEVTOOLS);
-      console.log('Vue.js devtools extension installed');
-    } catch (e) {
-      console.log('Failed to install Vue.js devtools extension:', e);
-    }
+
+      await installExtension([VUEJS3_DEVTOOLS])
+        .then((name) => console.log('Vue.js devtools extension installed'))
+        .catch((err) => console.log('Failed to install Vue.js devtools extension:', err))
+        .finally(() => {
+          win.webContents.openDevTools();
+        });
+    });
   }
 
-  const { maximized } = store.get('windowState') as WindowState;
+  const windowState = store.get('windowState') as WindowState;
 
   createWindow();
   // Set minimized state if the window was minimized when it was last closed
-  if (maximized) {
-    win.maximize();
+  if (windowState) {
+    if (windowState.maximized) win.maximize();
   }
   win.show();
 });
