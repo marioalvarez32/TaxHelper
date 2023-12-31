@@ -14,18 +14,7 @@
           </div>
           <div class="receipt-reader__directory-data">
             <div class="receipt-reader__files-table">
-              <v-table density="compact" fixed-header>
-                <thead>
-                  <tr>
-                    <th class="text-left">Nombre del archivo</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="file in filesInDirectory" :key="file">
-                    <td>{{ file }}</td>
-                  </tr>
-                </tbody>
-              </v-table>
+              <FileNameTable :file-names="filesInDirectory" />
             </div>
             <v-btn :disabled="filesInDirectory.length <= 0 || isExportingData" color="primary" @click="readFiles"> Cargar recibos </v-btn>
           </div>
@@ -51,7 +40,30 @@
         <div class="table-header__left">
           <v-select v-model="selectedTableView" :items="tableViews" single-line item-title="label" item-value="view" label="Select" prepend-inner-icon="mdi-format-list-bulleted" density="compact" variant="solo" hide-details></v-select>
         </div>
-        <div v-if="ommittedFiles.length > 0">{{ ommittedFiles.length }} Recibos omitidos</div>
+
+        <v-dialog width="500" max-height="500">
+          <template v-slot:activator="{ props }">
+            <div class="table-header__ommitted-files-container" v-bind="props">
+              <div v-if="ommittedFiles.length > 0">{{ ommittedFiles.length }} Recibos omitidos</div>
+              <v-icon icon="mdi-help-circle-outline" color="blue"></v-icon>
+            </div>
+          </template>
+
+          <template v-slot:default="{ isActive }">
+            <v-card title="Archivos Omitidos">
+              <div class="ommitted-files_table">
+                <FileNameTable :file-names="filesInDirectory" />
+              </div>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+
+                <v-btn text="Cerrar" variant="tonal" @click="isActive.value = false"></v-btn>
+              </v-card-actions>
+            </v-card>
+          </template>
+        </v-dialog>
+
         <div class="table-header__right">
           <fieldset class="receipt-reader__table-actions">
             <v-btn :disabled="addedReceipts.length <= 0 || selectedTableView != 'default'" class="table__button" color="blue-grey" size="small" prepend-icon="mdi-export" @click="exportTableToExcel">Exportar</v-btn>
@@ -75,11 +87,13 @@ import ReceiptType from '@/Client/ReceiptReader/Models/ReceiptType';
 import { exportReceiptDataToExcel } from './Services/ReceiptReaderService';
 const { ipcRenderer } = require('electron');
 import ReceiptsTable from './Components/ReceiptsTable.vue';
+import FileNameTable from './Components/FileNameTable.vue';
 
 export default defineComponent({
   props: {},
   components: {
     ReceiptsTable,
+    FileNameTable,
   },
   setup() {
     const selectedFileDirectory = ref('');
@@ -322,5 +336,19 @@ export default defineComponent({
   width: 100%;
   border: 1px solid;
   border-color: rgba(var(--v-theme-on-background), var(--v-border-opacity));
+}
+
+.ommitted-files_table {
+  padding: 10px;
+  border: 1px solid;
+  border-color: rgba(var(--v-theme-on-background), var(--v-border-opacity));
+  overflow-y: auto;
+}
+
+.table-header__ommitted-files-container {
+  justify-content: center;
+  display: flex;
+  gap: 2px;
+  cursor: pointer;
 }
 </style>
