@@ -103,4 +103,16 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+:deep(.v-theme--dark tbody tr:nth-of-type(odd)) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+:deep(.v-theme--light tbody tr:nth-of-type(odd)) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+:deep(.v-table tbody tr:hover) {
+  background-color: rgba(var(--v-theme-primary), 0.2);
+}
+</style>
