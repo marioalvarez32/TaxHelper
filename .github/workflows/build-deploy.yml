@@ -1,0 +1,50 @@
+name: Build and Deploy
+
+on:
+  workflow_run:
+    workflows: ["Release"]
+    types:
+      - completed
+
+permissions:
+  contents: write
+
+jobs:  
+  build:
+    name: Build
+    runs-on: windows-latest
+    timeout-minutes: 2
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'  # Set your Node.js version
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build  # Replace with your build command
+
+      - name: Archive Production Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: release/  # Replace with your build directory
+          
+  deploy:
+    needs: build
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:       
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with: 
+          name: build-artifacts
+        
+      - name: Clear Remote Directory
+        run: ls -lR ./artifacts
