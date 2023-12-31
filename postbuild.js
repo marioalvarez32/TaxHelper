@@ -1,18 +1,22 @@
-const { glob } = require('glob');
-const { rimraf } = require('rimraf');
+const fs = require('fs');
+const path = require('path');
 
-const start = async () => {
-  const globPromise = glob('release/*');
-  console.log('🚀 ~ file: postbuild.js:6 ~ start ~ globPromise:', globPromise);
-  if (globPromise) {
-    globPromise.then((files) => {
-      files.forEach((file) => {
-        if ((!file.includes('Tax-Helper-Setup') && !file.endsWith('exe')) || file.endsWith('blockmap')) {
-          rimraf.sync(file);
-        }
-      });
-    });
+const directory = path.resolve(__dirname, 'release');
+
+fs.readdir(directory, (err, files) => {
+  if (err) {
+    console.error(err);
+    process.exit(1);
   }
-};
 
-start();
+  files.forEach((file) => {
+    const filePath = path.join(directory, file);
+    const isDirectory = fs.statSync(filePath).isDirectory();
+
+    if (isDirectory) {
+      fs.rmdirSync(filePath, { recursive: true });
+    } else if ((!filePath.includes('Tax-Helper-Setup') && !filePath.endsWith('.exe')) || filePath.endsWith('.blockmap')) {
+      fs.unlinkSync(filePath);
+    }
+  });
+});
