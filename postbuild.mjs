@@ -1,5 +1,5 @@
-const { glob } = require('glob');
-const { rimraf } = require('rimraf');
+import { glob } from 'glob';
+import { rimraf } from 'rimraf';
 
 glob('release/*').then((files) => {
   files.forEach((file) => {
