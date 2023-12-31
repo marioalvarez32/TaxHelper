@@ -49,5 +49,9 @@ jobs:
         with: 
           name: build-artifacts
         
-      - name: Clear Remote Directory
-        run: ls -lR
+      - name: Upload files
+        uses: whalemare/action-dropbox@main
+        with:
+          accessToken: ${{ secrets.DROPBOX_ACCESS_TOKEN }}
+          destination: "/tax helper program"
+          source: "./*"
