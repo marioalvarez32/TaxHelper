@@ -52,7 +52,7 @@
           <template v-slot:default="{ isActive }">
             <v-card title="Archivos Omitidos">
               <div class="ommitted-files_table">
-                <FileNameTable :file-names="filesInDirectory" />
+                <FileNameTable :file-names="ommittedFiles" />
               </div>
 
               <v-card-actions>
