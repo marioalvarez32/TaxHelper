@@ -8,12 +8,15 @@ on:
 
 permissions:
   contents: write
+  
+env:
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
 jobs:  
   build:
     name: Build
     runs-on: windows-latest
-    timeout-minutes: 2
+    
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
