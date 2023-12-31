@@ -50,4 +50,4 @@ jobs:
           name: build-artifacts
         
       - name: Clear Remote Directory
-        run: ls -lR ./artifacts
+        run: ls -lR
