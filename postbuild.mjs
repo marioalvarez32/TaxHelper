@@ -1,4 +1,6 @@
-import { glob } from 'glob';
+import pkg from 'glob';
+const { glob } = pkg;
+
 import { rimraf } from 'rimraf';
 
 glob('release/*').then((files) => {
