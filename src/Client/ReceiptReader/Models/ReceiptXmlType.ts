@@ -16,6 +16,7 @@ export default class ReceiptXmlType {
     Total: string;
     ReceiptType: string;
     ReceiptVersion: string;
+    Descuento: number;
   };
   Taxes: {
     Amount: string;
@@ -48,6 +49,7 @@ export default class ReceiptXmlType {
       Total: summaryData['Total'],
       ReceiptType: summaryData['TipoDeComprobante'],
       ReceiptVersion: summaryData['Version'],
+      Descuento: summaryData['Descuento'],
     };
     const totalTax = data['cfdi:Impuestos']['0']['$'];
     this.Taxes = {
@@ -70,7 +72,7 @@ export default class ReceiptXmlType {
   }
 
   convertToReceiptType(): ReceiptType {
-    const { SubTotal, Total } = this.ReceiptSummary;
+    const { SubTotal, Total, Descuento } = this.ReceiptSummary;
     const { Amount: TaxAmount } = this.Taxes;
     const { Name: ReceiverName, Rfc: ReceiverRfc } = this.Receiver;
     const { Name: IssuerName, Rfc: IssuerRfc } = this.Issuer;
@@ -80,10 +82,11 @@ export default class ReceiptXmlType {
       IssuerRfc,
       ReceiverRfc,
       ReceiverName,
-      SubTotal,
-      Total,
-      TaxAmount,
+      SubTotal: parseFloat(`${SubTotal}`),
+      Total: parseFloat(`${Total}`),
+      TaxAmount: parseFloat(`${TaxAmount}`),
       UUID: this.UUID,
+      Descuento: parseFloat(`${Descuento}`),
     });
   }
 }

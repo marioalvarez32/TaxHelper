@@ -13,9 +13,9 @@ export default class ReceiptType {
     this.IssuerRfc = receipt.IssuerRfc;
     this.ReceiverRfc = receipt.ReceiverRfc;
     this.ReceiverName = receipt.ReceiverName;
-    this.SubTotal = parseFloat(receipt.SubTotal);
-    this.Total = parseFloat(receipt.Total);
-    this.TaxAmount = parseFloat(receipt.TaxAmount);
+    this.SubTotal = receipt.SubTotal - receipt.Descuento;
+    this.Total = receipt.Total;
+    this.TaxAmount = receipt.TaxAmount;
     this.UUID = receipt.UUID;
   }
 }
