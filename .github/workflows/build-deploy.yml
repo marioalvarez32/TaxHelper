@@ -54,4 +54,4 @@ jobs:
         with:
           accessToken: ${{ secrets.DROPBOX_ACCESS_TOKEN }}
           destination: "/tax helper program"
-          source: "./*"
+          source: "./"
