@@ -50,8 +50,9 @@ jobs:
           name: build-artifacts
         
       - name: Upload files
-        uses: whalemare/action-dropbox@main
+        uses: aTable/deploy-to-dropbox@v1.0.7
         with:
-          accessToken: ${{ secrets.DROPBOX_ACCESS_TOKEN }}
-          destination: "/tax helper program"
-          source: "./"
+          DROPBOX_ACCESS_TOKEN: ${{ secrets.DROPBOX_ACCESS_TOKEN }}
+          DROPBOX_DESTINATION_PATH_PREFIX: "/"
+          GLOB: "/*"
+          DEBUG: true
