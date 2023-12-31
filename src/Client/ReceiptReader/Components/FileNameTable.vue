@@ -17,7 +17,7 @@ import { PropType, computed } from 'vue';
 
 const props = defineProps({
   fileNames: {
-    type: Array as PropType<String[]>,
+    type: Array as PropType<string[]>,
     required: true,
   },
 });

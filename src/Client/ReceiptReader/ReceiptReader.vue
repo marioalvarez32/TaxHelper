@@ -43,8 +43,8 @@
 
         <v-dialog width="500" max-height="500">
           <template v-slot:activator="{ props }">
-            <div class="table-header__ommitted-files-container" v-bind="props">
-              <div v-if="ommittedFiles.length > 0">{{ ommittedFiles.length }} Recibos omitidos</div>
+            <div v-if="ommittedFiles.length > 0" class="table-header__ommitted-files-container" v-bind="props">
+              <div>{{ ommittedFiles.length }} Recibos omitidos</div>
               <v-icon icon="mdi-help-circle-outline" color="blue"></v-icon>
             </div>
           </template>
