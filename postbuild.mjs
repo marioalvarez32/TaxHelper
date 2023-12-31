@@ -1,7 +1,5 @@
-import pkg from 'glob';
-const { glob } = pkg;
-
-import { rimraf } from 'rimraf';
+const { glob } = require('glob');
+const { rimraf } = require('rimraf');
 
 glob('release/*').then((files) => {
   files.forEach((file) => {
