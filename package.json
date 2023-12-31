@@ -24,7 +24,7 @@
     "preview": "vite preview",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
     "format": "prettier .  --write",
-    "postbuild": "node ./postbuild.mjs"
+    "postbuild": "node ./postbuild.js"
   },
   "build": {
     "directories": {
