@@ -43,6 +43,8 @@ export default {
       switch (selectedSettingPage.value.Name) {
         case SettingPageType.Interface:
           return defineAsyncComponent(() => import('../Components/InterfaceSettings.vue'));
+        case SettingPageType.MercadoLibre:
+          return defineAsyncComponent(() => import('../Components/MercadoSettings.vue'));
       }
     });
 

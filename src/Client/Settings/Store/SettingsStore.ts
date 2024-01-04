@@ -20,6 +20,12 @@ export const useSettingsStore = defineStore('Settings', {
         Icon: 'mdi-application-settings-outline',
         Description: 'Todas las opciones de configuración de la Interfaz de usuario',
       },
+      {
+        Name: SettingPageType.MercadoLibre,
+        Label: 'MercadoLibre',
+        Icon: 'mdi-shopping',
+        Description: 'Configuracion de MercadoLibre',
+      },
     ],
     settingGroups: [
       {
@@ -28,6 +34,12 @@ export const useSettingsStore = defineStore('Settings', {
         Description: 'Personaliza el tema de la interfaz de usuario',
         SettingPage: SettingPageType.Interface,
       },
+      {
+        Name: 'mercadolibre-settings',
+        Label: 'Integracion con MercadoLibre',
+        Description: 'Configura la integracion con MercadoLibre',
+        SettingPage: SettingPageType.MercadoLibre,
+      },
     ],
     settingItems: [
       {
@@ -35,6 +47,18 @@ export const useSettingsStore = defineStore('Settings', {
         Label: 'Tema de Interfaz',
         Description: `Este ajuste te permite cambiar el tema de la aplicación, dándole una apariencia y sensación diferentes a la interfaz de la aplicación`,
         SettingGroupName: 'interface-theme',
+      },
+      {
+        Name: 'mercadolibre-app-id',
+        Label: 'ID de la aplicación',
+        Description: `Este ID te permite interactuar con tu cuenta de MercadoLibre desde la aplicación. Para obtener este ID, crea una aplicación en MercadoLibre y copia el ID de la aplicación`,
+        SettingGroupName: 'mercadolibre-settings',
+      },
+      {
+        Name: 'mercadolibre-app-url',
+        Label: 'URL de la applicación de MercadoLibre',
+        Description: `La URL tiene que ser la misma que se uso para crear la applicación en MercadoLibre`,
+        SettingGroupName: 'mercadolibre-settings',
       },
     ],
     searchTerm: '',

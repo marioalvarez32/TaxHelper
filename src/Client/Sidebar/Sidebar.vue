@@ -35,6 +35,11 @@ export default {
         Path: '/tools/receipt-reader',
         Icon: 'mdi-file-multiple',
       },
+      {
+        Text: 'Mercado Libre',
+        Path: '/tools/mi-tienda-mercado',
+        Icon: 'mdi-shopping',
+      },
     ];
     const settingNav = { Text: 'Configuración', Path: '/settings', Icon: 'mdi-cog' };
     const { toggleSettings } = useSettingsModal();
