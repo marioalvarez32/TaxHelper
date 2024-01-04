@@ -49,5 +49,10 @@ jobs:
         with: 
           name: build-artifacts
         
-      - name: Clear Remote Directory
-        run: ls -lR ./artifacts
+      - name: Upload files
+        uses: aTable/deploy-to-dropbox@v1.0.7
+        with:
+          DROPBOX_ACCESS_TOKEN: ${{ secrets.DROPBOX_ACCESS_TOKEN }}
+          DROPBOX_DESTINATION_PATH_PREFIX: "/Aplicaciones/TaxHelper/"
+          GLOB: "*"
+          DEBUG: false
