@@ -18,6 +18,7 @@ class MercadoSellerSearchPaging {
   Total: number;
 
   constructor(paging: any) {
+    if (!paging) return;
     this.Limit = paging.limit;
     this.Offset = paging.offset;
     this.PrimaryResults = paging.primary_results;
@@ -82,6 +83,7 @@ class MercadoSellerSearchSeller {
   Nickname: string;
 
   constructor(seller) {
+    if (!seller) return;
     this.Id = seller.id;
     this.Nickname = seller.nickname;
   }
@@ -105,6 +107,7 @@ class MercadoSellerSearchShipping {
   StorePickUp: boolean;
 
   constructor(shipping: any) {
+    if (!shipping) return;
     this.FreeShipping = shipping.free_shipping;
     this.Mode = shipping.mode;
     this.Tags = shipping.tags;

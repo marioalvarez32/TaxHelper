@@ -76,7 +76,7 @@
             <v-btn @click="unpauseAllListings" :disabled="!token" color="success">Despausar Listados</v-btn>
             <div class="mercado-tools__table-wrapper">
               <v-data-table class="mercado-tools__table" :headers="headers" :items="pausedItems" items-per-page="25" :loading="isFetchingItems">
-                <template v-slot:item.Price="{ item }"> ${{ item.Price.toFixed(2) }} </template>
+                <template v-slot:item.Price="{ item }"> ${{ item.Price ? item.Price.toFixed(2) : '--' }} </template>
                 <template v-slot:item.Thumbnail="{ item }">
                   <v-avatar class="mercado-tools__item-image" size="70px">
                     <v-img :src="item.Thumbnail" />
@@ -97,6 +97,7 @@ import useSettings from '../Settings/Composables/useSettings';
 import { MercadoSellerSearchResponse, MercadoSellerSearchResult } from './Models/MercadoSellerSearchResponse';
 import { Ref } from 'vue';
 import { useStorage } from '@vueuse/core';
+import articulosDeJuan from './articulos de juan.json';
 
 export default {
   components: {},
@@ -113,7 +114,7 @@ export default {
     const pauseProgress = ref(0);
     const pauseProgressLabel = ref('');
     const selectedTab = ref('pause');
-    const defaultAwaitTime = 1000;
+    const defaultAwaitTime = 1500;
     const headers = [
       { title: 'ID', key: 'Id' },
       { title: 'Imagen', key: 'Thumbnail' },
@@ -122,6 +123,9 @@ export default {
       { title: 'Condicion', key: 'Condition' },
       { title: 'Cantidad', key: 'AvailableQuantity' },
     ];
+
+    pausedItems.value = articulosDeJuan.map((item) => new MercadoSellerSearchResult({ id: item }));
+    console.log('🚀 ~ file: MercadoTools.vue:128 ~ setup ~ pausedItems.value:', pausedItems.value);
 
     const isTogglingItems = ref(false);
 
