@@ -10,7 +10,6 @@ const Home = { template: '<div>Home</div>' };
 const routes = [
   { path: '/', component: Home },
   { path: '/tools/receipt-reader', component: ReceiptReader },
-  { path: '/tools/mi-tienda-mercado', component: MercadoTools },
   { path: '/settings', component: Settings },
 ];
 

@@ -85,7 +85,7 @@ import { readXmlDirectory, readXmlFiles } from './Services/FileService';
 import useIsLoading from './Composables/IsLoading';
 import ReceiptType from '@/Client/ReceiptReader/Models/ReceiptType';
 import { exportReceiptDataToExcel } from './Services/ReceiptReaderService';
-const { ipcRenderer } = require('electron');
+import { ipcRenderer } from 'electron';
 import ReceiptsTable from './Components/ReceiptsTable.vue';
 import FileNameTable from './Components/FileNameTable.vue';
 

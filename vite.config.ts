@@ -6,9 +6,12 @@ import renderer from 'vite-plugin-electron-renderer';
 import pkg from './package.json';
 import path from 'path';
 import { fileURLToPath, URL } from 'url';
+import { dirname } from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
   rmSync('dist-electron', { recursive: true, force: true });
 
   const isServe = command === 'serve';

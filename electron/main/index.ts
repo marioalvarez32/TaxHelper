@@ -2,8 +2,13 @@ import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
 import { release } from 'node:os';
 import { join } from 'node:path';
 import Store from 'electron-store';
-const isDev = require('electron-is-dev');
+import isDev from 'electron-is-dev';
+import { installExtension, VUEJS_DEVTOOLS } from 'electron-devtools-installer';
+import { fileURLToPath, URL } from 'url';
+import { dirname } from 'path';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 // The built directory structure
 //
 // ├─┬ dist-electron
@@ -109,10 +114,7 @@ function saveWindowState() {
 app.whenReady().then(async () => {
   if (isDev) {
     win?.webContents.once('dom-ready', async () => {
-      const installExtension = require('electron-devtools-installer').default;
-      const { VUEJS3_DEVTOOLS } = require('electron-devtools-installer');
-
-      await installExtension([VUEJS3_DEVTOOLS])
+      await installExtension([VUEJS_DEVTOOLS])
         .then((name) => console.log('Vue.js devtools extension installed'))
         .catch((err) => console.log('Failed to install Vue.js devtools extension:', err))
         .finally(() => {
