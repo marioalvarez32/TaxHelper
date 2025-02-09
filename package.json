@@ -21,11 +21,13 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build && electron-builder",
+    "build": "vue-tsc && vite build && electron-builder",
     "preview": "vite preview",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
     "format": "prettier .  --write",
-    "postbuild": "node ./postbuild.js"
+    "postbuild": "node ./postbuild.js",
+    "type-check": "vue-tsc --noEmit",
+    "type-check:watch": "vue-tsc --noEmit --watch"
   },
   "build": {
     "directories": {
