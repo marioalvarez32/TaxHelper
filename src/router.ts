@@ -1,7 +1,6 @@
-import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 
 import ReceiptReader from '@/Client/ReceiptReader/ReceiptReader.vue';
-import MercadoTools from '@/Client/MercadoTools/MercadoTools.vue';
 
 import Settings from '@/Client/Settings/Settings.vue';
 
