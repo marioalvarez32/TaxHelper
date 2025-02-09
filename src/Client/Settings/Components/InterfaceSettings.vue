@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { toRefs, ref, computed } from 'vue';
+import { toRefs, computed } from 'vue';
 import SettingsItemGroup from './SettingsItemGroup.vue';
 import { useSettingsStore } from '../Store/SettingsStore';
 import { useTheme } from 'vuetify';

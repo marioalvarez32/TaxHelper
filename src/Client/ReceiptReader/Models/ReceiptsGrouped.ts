@@ -9,7 +9,8 @@ export default class ReceiptsGrouped {
   TaxAmount: number;
   Receipts: ReceiptType[];
 
-  constructor(receipt: any) {
+  constructor(receipt: any, key: string) {
+    this.Key = key;
     this.IssuerName = receipt.IssuerName;
     this.IssuerRfc = receipt.IssuerRfc;
     this.SubTotal = 0;

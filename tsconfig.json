@@ -19,7 +19,6 @@
     },
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "sourceMap": true,
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,

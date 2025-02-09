@@ -32,6 +32,7 @@ export async function readXmlFiles(directory: string, files: string[]): Promise<
   return new Promise((resolve, reject) => {
     const xml2js = require('xml2js');
     const receiptFiles: ReceiptType[] = [];
+    // @ts-ignore
     const ommitedFiles = [];
     for (const file of files) {
       const filePath = path.join(directory, file);
@@ -52,6 +53,7 @@ export async function readXmlFiles(directory: string, files: string[]): Promise<
     }
     resolve({
       ReceiptsRead: receiptFiles,
+      // @ts-ignore
       FilesOmmited: ommitedFiles,
     });
   });

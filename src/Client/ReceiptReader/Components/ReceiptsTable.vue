@@ -51,9 +51,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { computed } from 'vue';
 import ReceiptType from '../Models/ReceiptType';
-import { PropType } from 'vue';
+import type { PropType } from 'vue';
 import ReceiptsGrouped from '../Models/ReceiptsGrouped';
 
 export default {
@@ -74,14 +74,17 @@ export default {
   },
   setup(props) {
     const receiptsByIssuerRFC = computed<ReceiptsGrouped[]>(() => groupBy(Array.from(props.addedReceipts), 'IssuerRfc'));
-
+    //@ts-ignore
     function groupBy(array, key) {
+          //@ts-ignore
       return array.reduce((result, obj: ReceiptType) => {
+            //@ts-ignore
         if (!result[obj[key]]) {
-          result[obj[key]] = new ReceiptsGrouped(obj);
+              //@ts-ignore
+          result[obj[key]] = new ReceiptsGrouped(obj, key);
         }
+        //@ts-ignore
         const group = result[obj[key]];
-        group.Key = key;
         group.SubTotal += obj.SubTotal;
         group.Total += obj.Total;
         group.TaxAmount += obj.TaxAmount;

@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import SettingItemModel from '../Models/SettingItem';
-import { PropType } from 'vue';
+import type { PropType } from 'vue';
 import SettingItem from './SettingItem.vue';
 
 export default {

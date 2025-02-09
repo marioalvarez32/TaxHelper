@@ -1,22 +1,27 @@
-import { rmSync } from 'node:fs';
-import { defineConfig } from 'vite';
-import vue from '@vitejs/plugin-vue';
-import electron from 'vite-plugin-electron';
-import renderer from 'vite-plugin-electron-renderer';
-import pkg from './package.json';
-import path from 'path';
-import { fileURLToPath, URL } from 'url';
-import { dirname } from 'path';
+import { rmSync } from 'node:fs'
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import electron from 'vite-plugin-electron'
+import renderer from 'vite-plugin-electron-renderer'
+import pkg from './package.json'
+import path from 'path'
+import { fileURLToPath, URL } from 'url'
+import { dirname } from 'path'
 
 // https://vitejs.dev/config/
-export default defineConfig(({ command }) => {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = dirname(__filename);
-  rmSync('dist-electron', { recursive: true, force: true });
+export default defineConfig(({ command, mode }) => {
+  const __filename = fileURLToPath(import.meta.url)
+  const __dirname = dirname(__filename)
+  
+  // Clean dist on fresh builds
+  if (command === 'build') {
+    rmSync('dist-electron', { recursive: true, force: true })
+  }
 
-  const isServe = command === 'serve';
-  const isBuild = command === 'build';
-  const sourcemap = isServe || !!process.env.VSCODE_DEBUG;
+  const isServe = command === 'serve'
+  const isBuild = command === 'build'
+  const isDev = mode === 'development'
+  const sourcemap = isServe || !!process.env.VSCODE_DEBUG
 
   return {
     plugins: [
@@ -27,9 +32,9 @@ export default defineConfig(({ command }) => {
           entry: 'electron/main/index.ts',
           onstart(options) {
             if (process.env.VSCODE_DEBUG) {
-              console.log(/* For `.vscode/.debug.script.mjs` */ '[startup] Electron App');
+              console.log('[startup] Electron App')
             } else {
-              options.startup();
+              options.startup()
             }
           },
           vite: {
@@ -41,6 +46,9 @@ export default defineConfig(({ command }) => {
                 external: Object.keys(pkg.dependencies ?? {}),
               },
             },
+            optimizeDeps: {
+              exclude: ['electron']
+            }
           },
         },
         {
@@ -48,17 +56,20 @@ export default defineConfig(({ command }) => {
           onstart(options) {
             // Notify the Renderer-Process to reload the page when the Preload-Scripts build is complete,
             // instead of restarting the entire Electron App.
-            options.reload();
+            options.reload()
           },
           vite: {
             build: {
-              sourcemap: sourcemap ? 'inline' : undefined, // #332
+              sourcemap: sourcemap ? 'inline' : undefined,
               minify: isBuild,
               outDir: 'dist-electron/preload',
               rollupOptions: {
                 external: Object.keys('dependencies' in pkg ? pkg.dependencies : {}),
               },
             },
+            optimizeDeps: {
+              exclude: ['electron']
+            }
           },
         },
       ]),
@@ -70,18 +81,40 @@ export default defineConfig(({ command }) => {
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
-        Views: fileURLToPath(new URL('./src/views', import.meta.url)),
-        vue: 'vue/dist/vue.esm-bundler.js',
+        'Views': fileURLToPath(new URL('./src/views', import.meta.url)),
+        'Components': fileURLToPath(new URL('./src/components', import.meta.url)),
+        'Assets': fileURLToPath(new URL('./src/assets', import.meta.url)),
+        'Types': fileURLToPath(new URL('./src/types', import.meta.url)),
+        'vue': 'vue/dist/vue.esm-bundler.js',
       },
     },
-    server:
-      process.env.VSCODE_DEBUG &&
-      (() => {
-        const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL);
-        return {
-          host: url.hostname,
-          port: +url.port,
-        };
-      })(),
-  };
-});
+    server: process.env.VSCODE_DEBUG
+      ? (() => {
+          const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL)
+          return {
+            host: url.hostname,
+            port: +url.port,
+          }
+        })()
+      : {
+          host: '127.0.0.1',
+          port: 3000,
+        },
+    build: {
+      target: 'esnext',
+      minify: 'esbuild',
+      sourcemap: sourcemap,
+      chunkSizeWarningLimit: 1000,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vendor': ['vue'],
+          },
+        },
+      },
+    },
+    esbuild: {
+      pure: isDev ? [] : ['console.log', 'console.debug', 'console.info'],
+    },
+  }
+})

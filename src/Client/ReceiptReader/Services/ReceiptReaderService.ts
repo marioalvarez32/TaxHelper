@@ -1,6 +1,5 @@
 import ExcelJS from 'exceljs';
 import fs from 'fs';
-const path = require('path');
 
 import ReceiptType from '../Models/ReceiptType';
 

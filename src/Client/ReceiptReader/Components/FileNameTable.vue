@@ -13,9 +13,9 @@
   </v-table>
 </template>
 <script setup lang="ts">
-import { PropType, computed } from 'vue';
+import type { PropType } from 'vue';
 
-const props = defineProps({
+defineProps({
   fileNames: {
     type: Array as PropType<string[]>,
     required: true,

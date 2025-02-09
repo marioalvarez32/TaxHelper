@@ -4,8 +4,8 @@
       <div class="settings-content__header">
         <div class="settings-content__header-container">
           <div>
-            <h2>{{ selectedSettingPage.Label }}</h2>
-            <p class="v-label">{{ selectedSettingPage.Description }}</p>
+            <h2>{{ selectedSettingPage?.Label }}</h2>
+            <p class="v-label">{{ selectedSettingPage?.Description }}</p>
           </div>
           <div class="settings-content__header-search-wrapper">
             <v-text-field v-model="searchTerm" class="settings-content__header-search" clearable label="Buscar" hide-details density="compact" variant="outlined" single-line append-inner-icon="mdi-magnify"></v-text-field>
@@ -40,11 +40,9 @@ export default {
       /**
        * Would have loved to do this in a different way but importing this in the same component avoids rendering issues.
        */
-      switch (selectedSettingPage.value.Name) {
+      switch (selectedSettingPage.value?.Name) {
         case SettingPageType.Interface:
           return defineAsyncComponent(() => import('../Components/InterfaceSettings.vue'));
-        case SettingPageType.MercadoLibre:
-          return defineAsyncComponent(() => import('../Components/MercadoSettings.vue'));
       }
     });
 

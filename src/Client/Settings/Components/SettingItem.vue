@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { PropType } from 'vue';
+import type { PropType } from 'vue';
 import SettingItem from '../Models/SettingItem';
 import { useSettingsStore } from '../Store/SettingsStore';
 import { toRefs } from 'vue';

@@ -2,7 +2,7 @@
   <div class="sidebar">
     <v-navigation-drawer elevation="10" permanent expand-on-hover rail rail-width="60">
       <v-list :lines="false" density="default" nav class="sidebar__nav-list">
-        <template v-for="(menuItem, i) in navigationItems" :key="i">
+        <template v-for="(menuItem) in navigationItems" :key="i">
           <v-list-item :to="menuItem.Path" :active="$route.path === menuItem.Path" active-color="primary">
             <template v-slot:prepend>
               <v-icon size="30" :icon="menuItem.Icon"></v-icon>
@@ -34,12 +34,7 @@ export default {
         Text: 'Lector de RFC',
         Path: '/tools/receipt-reader',
         Icon: 'mdi-file-multiple',
-      },
-      {
-        Text: 'Mercado Libre',
-        Path: '/tools/mi-tienda-mercado',
-        Icon: 'mdi-shopping',
-      },
+      }
     ];
     const settingNav = { Text: 'Configuración', Path: '/settings', Icon: 'mdi-cog' };
     const { toggleSettings } = useSettingsModal();

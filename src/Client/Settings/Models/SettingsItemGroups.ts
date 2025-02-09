@@ -6,5 +6,10 @@ export default class SettingsItemGroups {
   Description: string;
   SettingItems: SettingItem[];
 
-  constructor(parameters) {}
+  constructor(name: string, label: string, description: string, settingItems: SettingItem[]) {
+    this.Name = name;
+    this.Label = label;
+    this.Description = description;
+    this.SettingItems = settingItems;
+  }
 }

@@ -1,5 +1,6 @@
 import 'vuetify/styles';
-import { ThemeDefinition, createVuetify } from 'vuetify';
+import { createVuetify } from 'vuetify';
+import type {ThemeDefinition} from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import { aliases, mdi } from 'vuetify/iconsets/mdi';
