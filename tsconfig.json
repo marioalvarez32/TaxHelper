@@ -10,7 +10,7 @@
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
-    "noEmit": false,
+    "noEmit": true,
     "baseUrl": ".",
     "paths": {
       "@/*": [
@@ -19,28 +19,23 @@
     },
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "verbatimModuleSyntax": true
   },
   "include": [
-    "src", 
     "src/**/*.ts",
+    "src/**/*.d.ts",
     "src/**/*.tsx",
-    "src/**/*.vue",
-    "tests/**/*.ts"
+    "src/**/*.vue"
   ],
   "exclude": [
     "node_modules",
     "dist",
     "build",
-    "electron"
+    "electron/**/*"
   ],
   "references": [
-    {
-      "path": "./tsconfig.node.json"
-    },
     {
       "path": "./electron/tsconfig.electron.json"
     }
