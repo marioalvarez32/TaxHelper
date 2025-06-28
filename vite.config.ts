@@ -15,7 +15,7 @@ export default defineConfig(({ command, mode }) => {
 
 	// Clean dist on fresh builds
 	if (command === 'build') {
-		rmSync('dist-electron', { recursive: true, force: true });
+		rmSync('out', { recursive: true, force: true });
 	}
 
 	const isServe = command === 'serve';
@@ -24,12 +24,13 @@ export default defineConfig(({ command, mode }) => {
 	const sourcemap = isServe || !!process.env.VSCODE_DEBUG;
 
 	return {
+		root: path.resolve(__dirname, 'src/renderer'), // Set the root for the renderer process
 		plugins: [
 			vue(),
 			electron([
 				{
 					// Main-Process entry file of the Electron App.
-					entry: 'electron/main/index.ts',
+					entry: path.resolve(__dirname, 'src/main/index.ts'),
 					onstart(options) {
 						if (process.env.VSCODE_DEBUG) {
 							console.log('[startup] Electron App');
@@ -41,7 +42,7 @@ export default defineConfig(({ command, mode }) => {
 						build: {
 							sourcemap,
 							minify: isBuild,
-							outDir: path.resolve(__dirname, 'dist-electron/main'),
+							outDir: path.resolve(__dirname, 'out/main'),
 							rollupOptions: {
 								external: Object.keys(pkg.dependencies ?? {}),
 							},
@@ -52,7 +53,7 @@ export default defineConfig(({ command, mode }) => {
 					},
 				},
 				{
-					entry: 'electron/preload/index.ts',
+					entry: path.resolve(__dirname, 'src/preload/index.ts'),
 					onstart(options) {
 						// Notify the Renderer-Process to reload the page when the Preload-Scripts build is complete,
 						// instead of restarting the entire Electron App.
@@ -62,7 +63,7 @@ export default defineConfig(({ command, mode }) => {
 						build: {
 							sourcemap: sourcemap ? 'inline' : undefined,
 							minify: isBuild,
-							outDir: 'dist-electron/preload',
+							outDir: 'out/preload',
 							rollupOptions: {
 								external: Object.keys('dependencies' in pkg ? pkg.dependencies : {}),
 							},
@@ -80,11 +81,12 @@ export default defineConfig(({ command, mode }) => {
 		],
 		resolve: {
 			alias: {
-				'@': path.resolve(__dirname, './src'),
-				Views: fileURLToPath(new URL('./src/views', import.meta.url)),
-				Components: fileURLToPath(new URL('./src/components', import.meta.url)),
-				Assets: fileURLToPath(new URL('./src/assets', import.meta.url)),
-				Types: fileURLToPath(new URL('./src/types', import.meta.url)),
+				'@': path.resolve(__dirname, './src/renderer/'),
+				Client: path.resolve(__dirname, './src/renderer/Client/'),
+				Views: fileURLToPath(new URL('./src/renderer/views', import.meta.url)),
+				Components: fileURLToPath(new URL('./src/renderer/components', import.meta.url)),
+				Assets: fileURLToPath(new URL('./src/renderer/assets', import.meta.url)),
+				Types: fileURLToPath(new URL('./src/renderer/types', import.meta.url)),
 				vue: 'vue/dist/vue.esm-bundler.js',
 			},
 		},
