@@ -13,12 +13,12 @@
 		"noEmit": true,
 		"baseUrl": ".",
 		"paths": {
-			"@/*": ["./src/renderer/*"],
-			"Client/*": ["./src/renderer/Client/*"],
-			"Views/*": ["./src/renderer/Views/*"],
-			"Components/*": ["./src/renderer/Components/*"],
-			"Assets/*": ["./src/renderer/Assets/*"],
-			"Types/*": ["./src/renderer/Types/*"]
+			"@/*": ["./src/renderer/src/*"],
+			"Client/*": ["./src/renderer/src/Client/*"],
+			"Views/*": ["./src/renderer/src/Views/*"],
+			"Components/*": ["./src/renderer/src/Components/*"],
+			"Assets/*": ["./src/renderer/src/Assets/*"],
+			"Types/*": ["./src/renderer/src/Types/*"]
 		},
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,

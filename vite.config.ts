@@ -81,12 +81,12 @@ export default defineConfig(({ command, mode }) => {
 		],
 		resolve: {
 			alias: {
-				'@': path.resolve(__dirname, './src/renderer/'),
-				Client: path.resolve(__dirname, './src/renderer/Client/'),
-				Views: fileURLToPath(new URL('./src/renderer/views', import.meta.url)),
-				Components: fileURLToPath(new URL('./src/renderer/components', import.meta.url)),
-				Assets: fileURLToPath(new URL('./src/renderer/assets', import.meta.url)),
-				Types: fileURLToPath(new URL('./src/renderer/types', import.meta.url)),
+				'@': path.resolve(__dirname, './src/renderer/src/'),
+				Client: path.resolve(__dirname, './src/renderer/src/Client/'),
+				Views: fileURLToPath(new URL('./src/renderer/src/views', import.meta.url)),
+				Components: fileURLToPath(new URL('./src/renderer/src/components', import.meta.url)),
+				Assets: fileURLToPath(new URL('./src/renderer/src/assets', import.meta.url)),
+				Types: fileURLToPath(new URL('./src/renderer/src/types', import.meta.url)),
 				vue: 'vue/dist/vue.esm-bundler.js',
 			},
 		},
