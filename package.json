@@ -1,90 +1,91 @@
 {
-  "name": "taxhelper",
-  "version": "1.1.0",
-  "main": "dist-electron/main/index.js",
-  "description": "Tax Helper",
-  "author": "Mario",
-  "license": "None",
-  "private": true,
-  "keywords": [
-    "electron",
-    "rollup",
-    "vite",
-    "vue3",
-    "vue"
-  ],
-  "type": "module",
-  "debug": {
-    "env": {
-      "VITE_DEV_SERVER_URL": "http://127.0.0.1:3344/"
-    }
-  },
-  "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc && vite build && electron-builder",
-    "preview": "vite preview",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
-    "format": "prettier .  --write",
-    "postbuild": "node ./postbuild.js",
-    "type-check": "vue-tsc --noEmit",
-    "type-check:watch": "vue-tsc --noEmit --watch"
-  },
-  "build": {
-    "directories": {
-      "output": "release"
-    },
-    "win": {
-      "target": "nsis"
-    },
-    "nsis": {
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true,
-      "deleteAppDataOnUninstall": true,
-      "perMachine": true,
-      "artifactName": "Tax-Helper-Setup-${version}.exe",
-      "installerIcon": "public/favicon.ico"
-    }
-  },
-  "devDependencies": {
-    "@babel/preset-env": "^7.26.9",
-    "@mdi/font": "^7.4.47",
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/exec": "^7.0.3",
-    "@semantic-release/git": "^10.0.1",
-    "@semantic-release/npm": "^12.0.1",
-    "@vitejs/plugin-vue": "^5.2.3",
-    "autoprefixer": "^10.4.21",
-    "electron": "^34.5.3",
-    "electron-builder": "^25.1.8",
-    "electron-devtools-installer": "^4.0.0",
-    "eslint": "^9.25.1",
-    "eslint-config-prettier": "10.0.1",
-    "eslint-plugin-vue": "^9.33.0",
-    "less": "^4.3.0",
-    "prettier": "3.4.2",
-    "sass": "^1.87.0",
-    "sass-loader": "^16.0.5",
-    "semantic-release": "^24.2.3",
-    "typescript": "^5.8.3",
-    "vite": "^6.3.2",
-    "vite-plugin-electron": "^0.29.0",
-    "vite-plugin-electron-renderer": "^0.14.6",
-    "vite-plugin-eslint": "^1.8.1",
-    "vue": "^3.2.45",
-    "vue-eslint-parser": "^9.4.3",
-    "vue-tsc": "^2.2.10"
-  },
-  "dependencies": {
-    "@vueuse/core": "^12.8.2",
-    "electron-is-dev": "^3.0.1",
-    "electron-store": "^8.2.0",
-    "exceljs": "^4.4.0",
-    "pinia": "^2.3.1",
-    "vue-router": "^4.5.0",
-    "vuetify": "^3.8.2",
-    "xml2js": "^0.6.2"
-  },
-  "volta": {
-    "node": "22.13.1"
-  }
+	"name": "taxhelper",
+	"version": "1.1.0",
+	"main": "dist-electron/main/index.js",
+	"description": "Tax Helper",
+	"author": "Mario",
+	"license": "None",
+	"private": true,
+	"keywords": [
+		"electron",
+		"rollup",
+		"vite",
+		"vue3",
+		"vue"
+	],
+	"type": "module",
+	"debug": {
+		"env": {
+			"VITE_DEV_SERVER_URL": "http://127.0.0.1:3344/"
+		}
+	},
+	"scripts": {
+		"dev": "vite",
+		"build": "vue-tsc && vite build && electron-builder",
+		"preview": "vite preview",
+		"lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
+		"format": "prettier .  --write",
+		"postbuild": "node ./postbuild.js",
+		"type-check": "vue-tsc --noEmit",
+		"type-check:watch": "vue-tsc --noEmit --watch"
+	},
+	"build": {
+		"directories": {
+			"output": "release"
+		},
+		"win": {
+			"target": "nsis"
+		},
+		"nsis": {
+			"oneClick": false,
+			"allowToChangeInstallationDirectory": true,
+			"deleteAppDataOnUninstall": true,
+			"perMachine": true,
+			"artifactName": "Tax-Helper-Setup-${version}.exe",
+			"installerIcon": "public/favicon.ico"
+		}
+	},
+	"devDependencies": {
+		"@babel/preset-env": "^7.26.9",
+		"@mdi/font": "^7.4.47",
+		"@semantic-release/changelog": "^6.0.3",
+		"@semantic-release/exec": "^7.0.3",
+		"@semantic-release/git": "^10.0.1",
+		"@semantic-release/npm": "^12.0.1",
+		"@vitejs/plugin-vue": "^5.2.3",
+		"autoprefixer": "^10.4.21",
+		"electron": "^34.5.3",
+		"electron-builder": "^25.1.8",
+		"electron-devtools-installer": "^4.0.0",
+		"eslint": "^9.25.1",
+		"eslint-config-prettier": "10.0.1",
+		"eslint-plugin-vue": "^9.33.0",
+		"less": "^4.3.0",
+		"prettier": "3.4.2",
+		"sass": "^1.87.0",
+		"sass-loader": "^16.0.5",
+		"semantic-release": "^24.2.3",
+		"typescript": "^5.8.3",
+		"vite": "^6.3.2",
+		"vite-plugin-electron": "^0.29.0",
+		"vite-plugin-electron-renderer": "^0.14.6",
+		"vite-plugin-eslint": "^1.8.1",
+		"vue": "^3.2.45",
+		"vue-eslint-parser": "^9.4.3",
+		"vue-tsc": "^2.2.10"
+	},
+	"dependencies": {
+		"@vueuse/core": "^12.8.2",
+		"electron-is-dev": "^3.0.1",
+		"electron-store": "^8.2.0",
+		"exceljs": "^4.4.0",
+		"pinia": "^2.3.1",
+		"vue-router": "^4.5.0",
+		"vuetify": "^3.8.2",
+		"xml2js": "^0.6.2",
+		"xmllint-wasm": "^5.0.0"
+	},
+	"volta": {
+		"node": "22.13.1"
+	}
 }
