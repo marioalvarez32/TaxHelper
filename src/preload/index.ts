@@ -1,8 +1,14 @@
-import { contextBridge } from 'electron';
+import { contextBridge, ipcRenderer } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
 
 // Custom APIs for renderer
-const api = {};
+const api = {
+	files: {
+		showSelectDirectoryDialog: () => ipcRenderer.invoke('showSelectDirectoryDialog'),
+		showSaveFileDialog: () => ipcRenderer.invoke('showSaveFileDialog'),
+	},
+	// Add other methods as needed
+};
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise
