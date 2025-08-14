@@ -1,7 +1,7 @@
 {
 	"name": "taxhelper",
 	"version": "1.1.0",
-	"main": "out/main/index.js",
+	"main": "./out/main/index.js",
 	"description": "Tax Helper",
 	"author": "Mario",
 	"license": "None",
@@ -13,16 +13,15 @@
 		"vue3",
 		"vue"
 	],
-	"type": "module",
 	"debug": {
 		"env": {
 			"VITE_DEV_SERVER_URL": "http://127.0.0.1:3344/"
 		}
 	},
 	"scripts": {
-		"dev": "vite",
-		"build": "vue-tsc && vite build && electron-builder",
-		"preview": "vite preview",
+		"start": "electron-vite preview",
+		"dev": "electron-vite dev",
+		"prebuild": "electron-vite build",
 		"lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
 		"format": "prettier .  --write",
 		"postbuild": "node ./postbuild.js",
@@ -76,8 +75,9 @@
 		"vue-tsc": "^2.2.10"
 	},
 	"dependencies": {
+		"@electron-toolkit/preload": "^3.0.2",
+		"@electron-toolkit/utils": "^4.0.0",
 		"@vueuse/core": "^12.8.2",
-		"electron-is-dev": "^3.0.1",
 		"electron-store": "^8.2.0",
 		"exceljs": "^4.4.0",
 		"pinia": "^2.3.1",

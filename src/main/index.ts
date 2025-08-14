@@ -1,148 +1,135 @@
-import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
-import { release } from 'node:os';
-import { join } from 'node:path';
+import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron';
+import { join } from 'path';
+import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import Store from 'electron-store';
-import isDev from 'electron-is-dev';
 import { installExtension, VUEJS_DEVTOOLS } from 'electron-devtools-installer';
-import { fileURLToPath, URL } from 'url';
-import { dirname } from 'path';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-// The built directory structure
-//
-// ├─┬ out
-// │ ├─┬ main
-// │ │ └── index.js    > Electron-Main
-// │ └─┬ preload
-// │   └── index.js    > Preload-Scripts
-// ├─┬ dist
-// │ └── index.html    > Electron-Renderer
-//
-process.env.DIST_ELECTRON = join(__dirname, '..');
-process.env.DIST = join(process.env.DIST_ELECTRON, '../dist');
-process.env.PUBLIC = process.env.VITE_DEV_SERVER_URL ? join(process.env.DIST_ELECTRON, '../public') : process.env.DIST;
-
-// Disable GPU Acceleration for Windows 7
-if (release().startsWith('6.1')) app.disableHardwareAcceleration();
-
-// Set application name for Windows 10+ notifications
-if (process.platform === 'win32') app.setAppUserModelId(app.getName());
-
-if (!app.requestSingleInstanceLock()) {
-	app.quit();
-	process.exit(0);
+interface WindowState {
+	maximized: boolean;
+	x: number;
+	y: number;
+	width: number;
+	height: number;
 }
-
-// Remove electron security warnings
-// This warning only shows in development mode
-// Read more on https://www.electronjs.org/docs/latest/tutorial/security
-// process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
-
-let win: BrowserWindow | null = null;
-
 const store = new Store();
+let mainWindow: BrowserWindow;
 
-// Here, you can also use other preload
-const preload = join(__dirname, '../preload/index.js');
-const url = process.env.VITE_DEV_SERVER_URL;
-const indexHtml = join(process.env.DIST, 'index.html');
-
-async function createWindow() {
+function createWindow(): void {
 	// Retrieve window position and size from electron-store
 	const defaultWindowState: WindowState = { x: 0, y: 0, width: 800, height: 600, maximized: true };
 	const { x, y, width, height } = store.get('windowState', defaultWindowState) as WindowState;
 
-	win = new BrowserWindow({
-		title: 'Main window',
-		icon: join(process.env.PUBLIC, 'favicon.ico'),
+	// Create the browser window.
+	mainWindow = new BrowserWindow({
 		x,
 		y,
 		width,
 		height,
 		show: false,
+		autoHideMenuBar: true,
 		webPreferences: {
-			preload,
-			// Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
-			// Consider using contextBridge.exposeInMainWorld
-			// Read more on https://www.electronjs.org/docs/latest/tutorial/context-isolation
-			nodeIntegration: true,
-			contextIsolation: false,
+			preload: join(__dirname, '../preload/index.js'),
+			sandbox: false,
 		},
 	});
 
-	if (process.env.VITE_DEV_SERVER_URL) {
-		// electron-vite-vue#298
-		win.loadURL(url);
-		// Open devTool if the app is not packaged
-		win.webContents.openDevTools();
-	} else {
-		win.loadFile(indexHtml);
-	}
-
-	// Test actively push message to the Electron-Renderer
-	win.webContents.on('did-finish-load', () => {
-		win?.webContents.send('main-process-message', new Date().toLocaleString());
+	mainWindow.on('ready-to-show', () => {
+		mainWindow.show();
 	});
 
-	// Make all links open with the browser, not with the application
-	win.webContents.setWindowOpenHandler(({ url }) => {
-		if (url.startsWith('https:')) shell.openExternal(url);
+	mainWindow.webContents.setWindowOpenHandler((details) => {
+		shell.openExternal(details.url);
 		return { action: 'deny' };
 	});
 
-	win.setMenu(null);
+	// HMR for renderer base on electron-vite cli.
+	// Load the remote URL for development or the local html file for production.
+	if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+		mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']);
+	} else {
+		mainWindow.loadFile(join(__dirname, '../renderer/index.html'));
+	}
 
+	// Make all links open with the browser, not with the application
+	// mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+	// 	if (url.startsWith('https:')) shell.openExternal(url);
+	// 	return { action: 'deny' };
+	// });
+
+	mainWindow.setMenu(null);
 	// Save window position and size when the window is moved or resized
-	win.on('move', saveWindowState);
-	win.on('resize', saveWindowState);
-	win.on('maximize', saveWindowState);
-	// Emitted when the window is closed.
-	win.on('closed', function () {
-		// Dereference the window object, usually you would store windows
-		// in an array if your app supports multi windows, this is the time
-		// when you should delete the corresponding element.
-		win = null;
-	});
+	mainWindow.on('move', saveWindowState);
+	mainWindow.on('resize', saveWindowState);
+	mainWindow.on('maximize', saveWindowState);
 }
 
 function saveWindowState() {
 	// Save window position, size, and minimized state to electron-store
-	store.set('windowState', { ...win.getBounds(), maximized: win.isMaximized() });
+	store.set('windowState', { ...mainWindow.getBounds(), maximized: mainWindow.isMaximized() });
 }
 
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
-	if (isDev) {
-		win?.webContents.once('dom-ready', async () => {
-			await installExtension([VUEJS_DEVTOOLS])
-				.then((name) => console.log('Vue.js devtools extension installed'))
-				.catch((err) => console.log('Failed to install Vue.js devtools extension:', err))
-				.finally(() => {
-					win.webContents.openDevTools();
-				});
+	// Set app user model id for windows
+	electronApp.setAppUserModelId('com.electron');
+
+	// Install Vue.js DevTools in development
+	if (is.dev) {
+		try {
+			await installExtension(VUEJS_DEVTOOLS);
+			console.log('Vue.js DevTools installed successfully');
+		} catch (error) {
+			console.error('Failed to install Vue.js DevTools:', error);
+		}
+	}
+
+	// Default open or close DevTools by F12 in development
+	// and ignore CommandOrControl + R in production.
+	// see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
+	app.on('browser-window-created', (_, window) => {
+		optimizer.watchWindowShortcuts(window);
+	});
+
+	// IPC test
+	ipcMain.on('ping', () => console.log('pong'));
+
+	const windowState = store.get('windowState') as WindowState;
+	createWindow();
+
+	if (windowState) {
+		if (windowState.maximized) mainWindow.maximize();
+	}
+
+	// Open DevTools in development after window is ready
+	if (is.dev) {
+		mainWindow.webContents.once('dom-ready', () => {
+			mainWindow.webContents.openDevTools();
 		});
 	}
 
-	const windowState = store.get('windowState') as WindowState;
-
-	createWindow();
-	// Set minimized state if the window was minimized when it was last closed
-	if (windowState) {
-		if (windowState.maximized) win.maximize();
-	}
-	win.show();
+	app.on('activate', function () {
+		// On macOS it's common to re-create a window in the app when the
+		// dock icon is clicked and there are no other windows open.
+		if (BrowserWindow.getAllWindows().length === 0) createWindow();
+	});
 });
 
+// Quit when all windows are closed, except on macOS. There, it's common
+// for applications and their menu bar to stay active until the user quits
+// explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
-	win = null;
-	if (process.platform !== 'darwin') app.quit();
+	if (process.platform !== 'darwin') {
+		app.quit();
+	}
 });
 
 app.on('second-instance', () => {
-	if (win) {
+	if (mainWindow) {
 		// Focus on the main window if the user tried to open another
-		if (win.isMinimized()) win.restore();
-		win.focus();
+		if (mainWindow.isMinimized()) mainWindow.restore();
+		mainWindow.focus();
 	}
 });
 
@@ -155,26 +142,26 @@ app.on('activate', () => {
 	}
 });
 
-// New window example arg: new windows url
-ipcMain.handle('open-win', (_, arg) => {
-	const childWindow = new BrowserWindow({
-		webPreferences: {
-			preload,
-			nodeIntegration: true,
-			contextIsolation: false,
-		},
-	});
+// // New window example arg: new windows url
+// ipcMain.handle('open-win', (_, arg) => {
+// 	const childWindow = new BrowserWindow({
+// 		webPreferences: {
+// 			preload,
+// 			nodeIntegration: true,
+// 			contextIsolation: false,
+// 		},
+// 	});
 
-	if (process.env.VITE_DEV_SERVER_URL) {
-		childWindow.loadURL(`${url}#${arg}`);
-	} else {
-		childWindow.loadFile(indexHtml, { hash: arg });
-	}
-});
+// 	if (process.env.VITE_DEV_SERVER_URL) {
+// 		childWindow.loadURL(`${url}#${arg}`);
+// 	} else {
+// 		childWindow.loadFile(indexHtml, { hash: arg });
+// 	}
+// });
 
 ipcMain.handle('showSelectDirectoryDialog', (e, message) => {
-	if (win) {
-		return dialog.showOpenDialog(win, {
+	if (mainWindow) {
+		return dialog.showOpenDialog(mainWindow, {
 			properties: ['openDirectory'],
 			message: 'Please select a directory',
 		});
@@ -182,7 +169,7 @@ ipcMain.handle('showSelectDirectoryDialog', (e, message) => {
 });
 
 ipcMain.handle('showSaveFileDialog', (e, message) => {
-	if (win) {
+	if (mainWindow) {
 		return dialog.showSaveDialog({
 			title: 'Save Excel File',
 			defaultPath: 'data.xlsx',
@@ -194,11 +181,3 @@ ipcMain.handle('showSaveFileDialog', (e, message) => {
 		});
 	}
 });
-
-interface WindowState {
-	maximized: boolean;
-	x: number;
-	y: number;
-	width: number;
-	height: number;
-}

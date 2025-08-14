@@ -16,9 +16,9 @@ app.use(pinia);
 app.use(vuetify);
 
 app.config.errorHandler = function (err) {
-  console.error(err);
+	console.error(err);
 };
 
 void app.mount('#app').$nextTick(() => {
-  postMessage({ payload: 'removeLoading' }, '*');
+	postMessage({ payload: 'removeLoading' }, '*');
 });
