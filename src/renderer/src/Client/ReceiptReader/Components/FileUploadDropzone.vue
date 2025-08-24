@@ -5,9 +5,7 @@
 			<div class="file-uploader-dropzone__description">
 				<p><span>Arrastra y suelta archivos</span></p>
 				<p>o</p>
-				<v-btn variant="elevated" color="primary" size="small" @click="openDirectoyDialog"
-					>Selecciona archivos</v-btn
-				>
+				<v-btn variant="elevated" color="primary" size="small" @click="openDirectoyDialog">Selecciona archivos</v-btn>
 			</div>
 			<p class="file-uploader-dropzone__supported-files-label">Archivos soportados: XML</p>
 		</div>
@@ -16,104 +14,54 @@
 				<p>Archivos cargados</p>
 			</div>
 			<div class="file-uploader-dropzone__list">
-				<div class="file-uploader-dropzone__list-item" v-for="(file, index) in fileListMock" :key="index">
+				<div class="file-uploader-dropzone__list-item" v-for="(file, index) in readFileList" :key="`${file.filePath}-${index}`">
 					<div class="file-uploader-dropzone__information-container">
 						<v-icon icon="mdi-file-account" size="large" color="blue-darken-2" />
-						<p class="file-uploader-dropzone__file-name">{{ file.name }}</p>
+						<p class="file-uploader-dropzone__file-name">{{ file.filePath }}</p>
 					</div>
-					<v-icon icon="mdi-delete" size="small" color="red" />
+					<v-icon-btn hide-overlay :icon="getIconByStatus(file.status)" :loading="file.status === 'loading'" :icon-color="getIconColorByStatus(file.status)"></v-icon-btn>
 				</div>
 			</div>
 		</div>
 	</div>
 </template>
 <script setup lang="ts">
-	import { ref, watch, type PropType } from 'vue';
-	import { ipcRenderer } from 'electron';
-	import FileService from '../Services/FileService';
-	import path from 'path';
+	import { ref, watch } from 'vue';
+	import type { FileReadingStatus } from '../Models/FileReadingStatus';
+	import { VIconBtn } from 'vuetify/labs/VIconBtn';
 
-	const fileService = new FileService();
-
-	const fileListMock = [
-		{
-			name: 'Factura_123.xml',
-			size: '1.2 MB',
-			type: '',
-		},
-		{
-			name: 'Factura_456.xml',
-			size: '800 KB',
-			type: '',
-		},
-		{
-			name: 'Factura_789.xml',
-			size: '2.5 MB',
-			type: '',
-		},
-		{
-			name: 'Factura_1011.xml',
-			size: '1.8 MB',
-			type: '',
-		},
-		{
-			name: 'Factura_1011.xml',
-			size: '1.8 MB',
-			type: '',
-		},
-		{
-			name: 'Factura_1011.xml',
-			size: '1.8 MB',
-			type: '',
-		},
-		{
-			name: 'Factura_1011.xml',
-			size: '1.8 MB',
-			type: '',
-		},
-		{
-			name: 'Factura_1011.xml',
-			size: '1.8 MB',
-			type: '',
-		},
-	];
 	const selectedFileDirectory = ref('');
 	const shouldTriggerFileRead = ref(false);
+	const readFileList = ref<FileReadingStatus[]>([]); // This needs to be of the typed CFDI. Must be a generic type extended by other sub types.
 	const isLoading = ref(false);
 
-	watch(
-		() => shouldTriggerFileRead.value,
-		() => {
-			if (shouldTriggerFileRead.value) {
-				loadFiles();
-				shouldTriggerFileRead.value = false;
-			}
-		},
-	);
+	watch([shouldTriggerFileRead, selectedFileDirectory], () => {
+		if (shouldTriggerFileRead.value) {
+			loadFilesToReadList();
+			shouldTriggerFileRead.value = false;
+		}
+	});
 
-	async function loadFiles() {
-		// Read the directoy and get list of files.
-		// Once the files are read, load each one and add it to the fileListMock.
+	async function loadFilesToReadList() {
 		const filesInDirectory = ref<string[]>([]);
-		await fileService
-			.readXmlDirectory(selectedFileDirectory.value, 'xml')
+		await window.api.files
+			.readXmlDirectory(selectedFileDirectory.value)
 			.then((files) => {
 				filesInDirectory.value = files;
 			})
 			.finally(() => (isLoading.value = false));
-
-		//readFilesInDirectory(filesInDirectory.value);
-		const firstFile = filesInDirectory.value[0];
-		const xmlFilePath = path.join(selectedFileDirectory.value, firstFile);
-		console.log('🚀 ~ loadFiles ~ xmlFilePath:', xmlFilePath);
-
-		fileService.validateCfdi(xmlFilePath);
-		console.log('🚀 ~ loadFiles ~ filesInDirectory:', filesInDirectory);
+		// Ignore files that re already in the files to read.
+		const newFilesToRead = filesInDirectory.value.filter((filePath) => !readFileList.value.some((file) => file.filePath === filePath));
+		newFilesToRead.forEach((filePath) => {
+			readFileList.value.push({ fileDirectory: selectedFileDirectory.value, filePath, status: 'pending' });
+		});
+		const pendingFilesToRead = readFileList.value.filter((file) => file.status === 'pending');
+		parseAndValidateFiles(pendingFilesToRead);
 	}
 
 	function openDirectoyDialog() {
-		ipcRenderer
-			.invoke('showSelectDirectoryDialog', 'Hello from the renderer!')
+		window.api.files
+			.showSelectDirectoryDialog()
 			.then((result) => {
 				if (result.canceled) return;
 				selectedFileDirectory.value = result.filePaths[0];
@@ -124,14 +72,60 @@
 			});
 	}
 
-	function readFilesInDirectory(filesInDirectory: string[]) {
-		isLoading.value = true;
-		fileService
-			.readXmlFiles(selectedFileDirectory.value, filesInDirectory)
+	function parseAndValidateFiles(filesToLoad: FileReadingStatus[]) {
+		filesToLoad.forEach((fileToRead) => {
+			loadFile(fileToRead);
+		});
+	}
+
+	async function loadFile(file: FileReadingStatus) {
+		// TODO: Implement worker threads to avoid blocking the UI
+		updateFileToReadStatus(file.filePath, 'loading');
+		const absoluteFilePath = await window.api.path.join(file.fileDirectory, file.filePath);
+		const result = await window.api.files
+			.parseAndvalidateCfdi(absoluteFilePath)
 			.then((result) => {
-				console.log('🚀 ~ loadFile ~ result:', result);
+				return result;
 			})
-			.finally(() => (isLoading.value = false));
+			.catch((err) => {
+				updateFileToReadStatus(file.filePath, 'error', err.message);
+			});
+
+		// Loaded the file correctly. Now we need to parse it into a CFDI object.
+		updateFileToReadStatus(file.filePath, 'success');
+	}
+
+	function updateFileToReadStatus(filePath: string, status: 'loading' | 'success' | 'error', message?: string) {
+		const fileToRead = readFileList.value.find((file) => file.filePath === filePath);
+		if (fileToRead) {
+			fileToRead.status = status;
+		}
+	}
+
+	function getIconByStatus(status: 'loading' | 'success' | 'error' | 'pending') {
+		switch (status) {
+			case 'loading':
+				return 'mdi-loading';
+			case 'success':
+				return 'mdi-check';
+			case 'error':
+				return 'mdi-alert-circle-outline';
+			case 'pending':
+				return 'mdi-timer-sand';
+		}
+	}
+
+	function getIconColorByStatus(status: 'loading' | 'success' | 'error' | 'pending') {
+		switch (status) {
+			case 'loading':
+				return 'info';
+			case 'success':
+				return 'success';
+			case 'error':
+				return 'error';
+			case 'pending':
+				return 'warning';
+		}
 	}
 </script>
 

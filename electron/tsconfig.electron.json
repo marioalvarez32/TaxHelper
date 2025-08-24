@@ -6,8 +6,15 @@
 		"moduleResolution": "Bundler",
 		"outDir": "../out",
 		"noEmit": false,
-		"rootDir": "."
+		"rootDir": ".."
 	},
-	"include": ["main/**/*", "preload/**/*", "../src/preload/index.ts", "../src/main/index.ts"],
+	"include": [
+		"main/**/*",
+		"preload/**/*",
+		"../src/preload/index.ts",
+		"../src/main/**/*",
+		"../src/resources/**/*",
+		"../src/**/*.ts"
+	],
 	"exclude": ["node_modules"]
 }

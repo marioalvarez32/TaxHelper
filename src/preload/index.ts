@@ -6,6 +6,11 @@ const api = {
 	files: {
 		showSelectDirectoryDialog: () => ipcRenderer.invoke('showSelectDirectoryDialog'),
 		showSaveFileDialog: () => ipcRenderer.invoke('showSaveFileDialog'),
+		readXmlDirectory: (directory: string, extension?: string) => ipcRenderer.invoke('readXmlDirectory', directory, extension),
+		parseAndvalidateCfdi,
+	},
+	path: {
+		join: (...pathSegments: string[]) => ipcRenderer.invoke('joinPath', ...pathSegments),
 	},
 	// Add other methods as needed
 };
@@ -25,4 +30,8 @@ if (process.contextIsolated) {
 	window.electron = electronAPI;
 	// @ts-ignore (define in dts)
 	window.api = api;
+}
+
+function parseAndvalidateCfdi(xmlFilePath: string, detectedCfdiVersion?: string): Promise<{ isValid: boolean; errors: string[]; parsedXML?: any }> {
+	return ipcRenderer.invoke('parseAndvalidateCfdi', xmlFilePath, detectedCfdiVersion);
 }

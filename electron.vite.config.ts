@@ -6,9 +6,18 @@ import path from 'path';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
 	main: {
-		plugins: [externalizeDepsPlugin(), bytecodePlugin()],
+		plugins: [
+			externalizeDepsPlugin(),
+			// Only use bytecode plugin in production to enable HMR in development
+			...(command === 'build' ? [bytecodePlugin()] : []),
+		],
+		resolve: {
+			alias: {
+				Resources: path.resolve(__dirname, './src/resources'),
+			},
+		},
 	},
 	preload: {
 		plugins: [externalizeDepsPlugin(), bytecodePlugin()],
@@ -24,8 +33,9 @@ export default defineConfig({
 				Assets: path.resolve(__dirname, './src/renderer/src/assets'),
 				Types: path.resolve(__dirname, './src/renderer/src/types'),
 				vue: 'vue/dist/vue.esm-bundler.js',
+				Resources: path.resolve(__dirname, './src/resources'),
 			},
 		},
 		plugins: [vue()],
 	},
-});
+}));

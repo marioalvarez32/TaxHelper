@@ -111,11 +111,9 @@
 
 <script lang="ts">
 	import { defineComponent, ref, computed } from 'vue';
-	import FileService from './Services/FileService';
 	import useIsLoading from './Composables/IsLoading';
-	import ReceiptType from '@/Client/ReceiptReader/Models/ReceiptType';
+	import ReceiptType from 'Resources/models/ReceiptType';
 	import { exportReceiptDataToExcel } from './Services/ReceiptReaderService';
-	import { ipcRenderer } from 'electron';
 	import ReceiptsTable from './Components/ReceiptsTable.vue';
 	import FileNameTable from './Components/FileNameTable.vue';
 	import FileUploadDropzone from './Components/FileUploadDropzone.vue';
@@ -128,7 +126,7 @@
 			FileUploadDropzone,
 		},
 		setup() {
-			const fileService = new FileService();
+			const fileService = () => {};
 			const selectedFileDirectory = ref('');
 			const filesInDirectory = ref<string[]>([]);
 			const addedReceipts = ref<ReceiptType[]>([]);
@@ -152,8 +150,9 @@
 			const { isLoading } = useIsLoading();
 
 			function openDirectoyDialog() {
-				ipcRenderer
-					.invoke('showSelectDirectoryDialog', 'Hello from the renderer!')
+				console.log('openDirectoyDialog');
+				window.api.files
+					.showSelectDirectoryDialog()
 					.then((result) => {
 						if (result.canceled) return;
 						selectedFileDirectory.value = result.filePaths[0];
@@ -209,8 +208,8 @@
 
 			function exportTableToExcel() {
 				let filePath = null;
-				ipcRenderer
-					.invoke('showSaveFileDialog', 'Hello from the renderer!')
+				window.api.files
+					.showSaveFileDialog()
 					.then((result) => {
 						if (result.canceled) return;
 						filePath = result.filePath;

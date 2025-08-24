@@ -18,7 +18,8 @@
 			"Views/*": ["./src/renderer/src/Views/*"],
 			"Components/*": ["./src/renderer/src/Components/*"],
 			"Assets/*": ["./src/renderer/src/Assets/*"],
-			"Types/*": ["./src/renderer/src/Types/*"]
+			"Types/*": ["./src/renderer/src/Types/*"],
+			"Resources/*": ["./src/resources/*"]
 		},
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,

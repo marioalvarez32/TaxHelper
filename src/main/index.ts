@@ -3,6 +3,7 @@ import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import Store from 'electron-store';
 import { installExtension, VUEJS_DEVTOOLS } from 'electron-devtools-installer';
+import FileService from './services/FileService';
 
 interface WindowState {
 	maximized: boolean;
@@ -180,4 +181,18 @@ ipcMain.handle('showSaveFileDialog', (e, message) => {
 			],
 		});
 	}
+});
+
+ipcMain.handle('readXmlDirectory', (e, directory, extension = 'xml') => {
+	const fileService = new FileService();
+	return fileService.readXmlDirectory(directory, extension);
+});
+
+ipcMain.handle('parseAndvalidateCfdi', (e, xmlFilePath, detectedCfdiVersion = '4.0') => {
+	const fileService = new FileService();
+	return fileService.parseAndvalidateCfdi(xmlFilePath);
+});
+
+ipcMain.handle('joinPath', (e, ...pathSegments: string[]) => {
+	return join(...pathSegments);
 });
