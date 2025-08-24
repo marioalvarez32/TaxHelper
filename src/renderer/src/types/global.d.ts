@@ -1,3 +1,4 @@
+import type { ValidateCfdiResult } from '@/Client/ReceiptReader/Models/FileServicesModels';
 import { ElectronAPI } from '@electron-toolkit/preload';
 
 export interface CustomAPI {
@@ -10,6 +11,12 @@ export interface CustomAPI {
 			canceled: boolean;
 			filePath?: string;
 		}>;
+		readXmlDirectory: (directory: string, extension?: string) => Promise<string[]>;
+		parseAndvalidateCfdi: (xmlFilePath: string, detectedCfdiVersion?: string) => Promise<ValidateCfdiResult>;
+	};
+
+	path: {
+		join: (...pathSegments: string[]) => string;
 	};
 }
 
