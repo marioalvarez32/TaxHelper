@@ -80,8 +80,9 @@ export default class FileService {
 			// Parse XML to validate CFDI structure
 			const parser = new XMLParser({
 				ignoreAttributes: false,
-				attributeNamePrefix: '@_',
+				attributeNamePrefix: '',
 				parseAttributeValue: true,
+				removeNSPrefix: true,
 			});
 
 			const xmlDoc = parser.parse(xmlContent);
@@ -90,29 +91,29 @@ export default class FileService {
 			const errors: string[] = [];
 
 			// Check if root element is Comprobante
-			if (!xmlDoc['cfdi:Comprobante']) {
-				errors.push('Missing root element cfdi:Comprobante');
+			if (!xmlDoc['Comprobante']) {
+				errors.push('Missing root element Comprobante');
 			}
 
-			const comprobante = xmlDoc['cfdi:Comprobante'];
+			const comprobante = xmlDoc['Comprobante'];
 			if (comprobante) {
 				// Check required attributes
 				const requiredAttrs = ['Version', 'Fecha', 'Sello', 'FormaPago', 'NoCertificado'];
 				requiredAttrs.forEach((attr) => {
-					if (!comprobante[`@_${attr}`]) {
+					if (!comprobante[`${attr}`]) {
 						errors.push(`Missing required attribute: ${attr}`);
 					}
 				});
 
 				// Check required elements
-				if (!comprobante['cfdi:Emisor']) {
-					errors.push('Missing required element: cfdi:Emisor');
+				if (!comprobante['Emisor']) {
+					errors.push('Missing required element: Emisor');
 				}
-				if (!comprobante['cfdi:Receptor']) {
-					errors.push('Missing required element: cfdi:Receptor');
+				if (!comprobante['Receptor']) {
+					errors.push('Missing required element: Receptor');
 				}
-				if (!comprobante['cfdi:Conceptos']) {
-					errors.push('Missing required element: cfdi:Conceptos');
+				if (!comprobante['Conceptos']) {
+					errors.push('Missing required element: Conceptos');
 				}
 			}
 

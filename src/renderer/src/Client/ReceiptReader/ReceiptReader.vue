@@ -1,28 +1,6 @@
 <template>
 	<div class="receipt-reader__container">
-		<div class="receipt-reader__content">
-			<v-card elevation="5" rounded="lg" class="receipt-reader__card receipt-reader__upload-dropzone">
-				<FileUploadDropzone />
-			</v-card>
-			<!-- <v-card elevation="5" rounded="lg" class="receipt-reader__card receipt-reader__input-form">
-        <div class="receipt-reader__load-directory-content">
-          <div class="receipt-reader__load-directory">
-            <v-overlay persistent :model-value="isLoading" contained>
-              <v-progress-circular :size="75" color="primary" indeterminate></v-progress-circular>
-            </v-overlay>
-            <h3>Cargar archivos XML</h3>
-            <v-btn color="primary" @click="openDirectoyDialog" class="text-capitalize"> Seleccionar carpeta </v-btn>
-            <h4>Carpeta seleccionada:</h4>
-            {{ selectedFileDirectory }}
-          </div>
-          <div class="receipt-reader__directory-data">
-            <div class="receipt-reader__files-table">
-              <FileNameTable :file-names="filesInDirectory" />
-            </div>
-            <v-btn :disabled="filesInDirectory.length <= 0 || isExportingData" color="primary" @click="readFiles"> Cargar recibos </v-btn>
-          </div>
-        </div>
-      </v-card> -->
+		<div class="receipt-reader__content">	
 			<v-card elevation="5" rounded="lg" class="receipt-reader__card receipt-reader__input-data">
 				<div class="receipt-reader__data-container">
 					<h3>

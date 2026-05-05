@@ -85,6 +85,7 @@
 		const result = await window.api.files
 			.parseAndvalidateCfdi(absoluteFilePath)
 			.then((result) => {
+				console.log('🚀 ~ loadFile ~ result:', result);
 				return result;
 			})
 			.catch((err) => {
